@@ -274,7 +274,7 @@ export default buildConfig({
     url: process.env.DATABASE_URI || '',
   }),
   sharp,
-  cors: ['http://localhost:3000'],
+  cors: ['http://localhost:3000', 'https://goldfingersaesthetics-zeta.vercel.app'],
   plugins: [
     payloadCloudPlugin(),
     // storage-adapter-placeholder

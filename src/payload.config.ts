@@ -130,6 +130,7 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  serverURL: 'https://goldfingerbackends.vercel.app',
   admin: {
     user: Users.slug,
     importMap: {

@@ -274,7 +274,11 @@ export default buildConfig({
     url: process.env.DATABASE_URI || '',
   }),
   sharp,
-  cors: ['http://localhost:3000', 'https://goldfingerbackends.vercel.app'],
+  cors: [
+    'http://localhost:3000',
+    'https://goldfingerbackends.vercel.app',
+    'https://goldfingersaesthetics.vercel.app',
+  ],
   plugins: [
     payloadCloudPlugin(),
     // storage-adapter-placeholder

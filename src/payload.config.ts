@@ -278,6 +278,7 @@ export default buildConfig({
     'http://localhost:3000',
     'https://goldfingerbackends.vercel.app',
     'https://goldfingersaesthetics.vercel.app',
+    'https://goldfingersaesthetics-pearl.vercel.app',
   ],
   plugins: [
     payloadCloudPlugin(),

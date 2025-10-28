@@ -130,7 +130,6 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
-  serverURL: 'https://goldfingerbackends.vercel.app',
   admin: {
     user: Users.slug,
     importMap: {
@@ -281,7 +280,6 @@ export default buildConfig({
     'https://goldfingerbackends.vercel.app',
     'https://goldfingersaesthetics.vercel.app',
   ],
-  csrf: ['https://goldfingersaesthetics-pearl.vercel.app', 'http://localhost:3000'],
   plugins: [
     payloadCloudPlugin(),
     // storage-adapter-placeholder

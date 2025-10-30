@@ -123,6 +123,11 @@ import { ContactComponent } from './collections/contact/ContactComponent'
 import { FormSubmissions } from './collections/contact/FormSubmissions'
 import { TrainingFormSubmissions } from './collections/traning/TrainingFormSubmissions'
 import { SpecialContactFormSubmissions } from './collections/specialRewards/SpecialPageContact'
+import { DaytonaBeachLocationPageComponent } from './collections/locations/DaytonaBeachLocationPageComponent'
+import { EnrolmentComponent } from './collections/traning/EnrolmentComponent'
+import { FooterComponent } from './collections/FooterComponent'
+import { Pages } from './collections/Pages'
+import { searchHandler } from './endpoints/search'
 
 // import { lexicalEditor } from '@payloadcms/richtext-lexical'
 
@@ -211,6 +216,7 @@ export default buildConfig({
     FoundationalProgramComponent,
     // TrainingApplicationComponent,
     TrainingApplicationSimpleComponent,
+    EnrolmentComponent,
     // FormSubmissions,
 
     PlasticSurgeryPageComponent,
@@ -249,6 +255,7 @@ export default buildConfig({
     WinterGardenLocationPageComponent,
     WinterParkLocationPageComponent,
     SatelliteLocationsPageComponent,
+    DaytonaBeachLocationPageComponent,
 
     // PlasticSurgeryComponent,
     // BreastPageComponent,
@@ -263,6 +270,9 @@ export default buildConfig({
     TrainingFormSubmissions,
     TrainingApplication,
     SpecialContactFormSubmissions,
+    FooterComponent,
+
+    Pages,
   ],
   globals: [Navbar, Home, ProviderLocatorComponent],
   editor: lexicalEditor(),
@@ -278,5 +288,12 @@ export default buildConfig({
   plugins: [
     payloadCloudPlugin(),
     // storage-adapter-placeholder
+  ],
+  endpoints: [
+    {
+      path: '/search',
+      method: 'get',
+      handler: searchHandler,
+    },
   ],
 })

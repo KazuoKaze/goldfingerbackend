@@ -135,6 +135,7 @@ export interface Config {
     'comprehensive-program-component': ComprehensiveProgramComponent;
     'foundational-program-component': FoundationalProgramComponent;
     'training-application-simple-component': TrainingApplicationSimpleComponent;
+    enrolmentComponent: EnrolmentComponent;
     'plastic-surgery-page-component': PlasticSurgeryPageComponent;
     'breast-page-component': BreastPageComponent;
     'breast-augmentation-page-component': BreastAugmentationPageComponent;
@@ -168,11 +169,14 @@ export interface Config {
     'winter-garden-location-page-component': WinterGardenLocationPageComponent;
     'winter-park-location-page-component': WinterParkLocationPageComponent;
     'satellite-locations-page-component': SatelliteLocationsPageComponent;
+    'daytona-beach-location-page-component': DaytonaBeachLocationPageComponent;
     'contact-component': ContactComponent;
     'form-submissions': FormSubmission;
     'training-form-submissions': TrainingFormSubmission;
     'training-application': TrainingApplication;
     'special-contact-form-submissions': SpecialContactFormSubmission;
+    footerComponent: FooterComponent;
+    pages: Page;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -247,6 +251,7 @@ export interface Config {
     'comprehensive-program-component': ComprehensiveProgramComponentSelect<false> | ComprehensiveProgramComponentSelect<true>;
     'foundational-program-component': FoundationalProgramComponentSelect<false> | FoundationalProgramComponentSelect<true>;
     'training-application-simple-component': TrainingApplicationSimpleComponentSelect<false> | TrainingApplicationSimpleComponentSelect<true>;
+    enrolmentComponent: EnrolmentComponentSelect<false> | EnrolmentComponentSelect<true>;
     'plastic-surgery-page-component': PlasticSurgeryPageComponentSelect<false> | PlasticSurgeryPageComponentSelect<true>;
     'breast-page-component': BreastPageComponentSelect<false> | BreastPageComponentSelect<true>;
     'breast-augmentation-page-component': BreastAugmentationPageComponentSelect<false> | BreastAugmentationPageComponentSelect<true>;
@@ -280,11 +285,14 @@ export interface Config {
     'winter-garden-location-page-component': WinterGardenLocationPageComponentSelect<false> | WinterGardenLocationPageComponentSelect<true>;
     'winter-park-location-page-component': WinterParkLocationPageComponentSelect<false> | WinterParkLocationPageComponentSelect<true>;
     'satellite-locations-page-component': SatelliteLocationsPageComponentSelect<false> | SatelliteLocationsPageComponentSelect<true>;
+    'daytona-beach-location-page-component': DaytonaBeachLocationPageComponentSelect<false> | DaytonaBeachLocationPageComponentSelect<true>;
     'contact-component': ContactComponentSelect<false> | ContactComponentSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'training-form-submissions': TrainingFormSubmissionsSelect<false> | TrainingFormSubmissionsSelect<true>;
     'training-application': TrainingApplicationSelect<false> | TrainingApplicationSelect<true>;
     'special-contact-form-submissions': SpecialContactFormSubmissionsSelect<false> | SpecialContactFormSubmissionsSelect<true>;
+    footerComponent: FooterComponentSelect<false> | FooterComponentSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -359,13 +367,12 @@ export interface User {
  */
 export interface Media {
   id: string;
+  alt?: string | null;
   /**
-   * Cloudinary URL
+   * Cloudinary URL - use this in your frontend
    */
   cloudinary_url?: string | null;
   public_id?: string | null;
-  resource_type?: string | null;
-  original_filename?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -24505,6 +24512,452 @@ export interface TrainingApplicationSimpleComponent {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "enrolmentComponent".
+ */
+export interface EnrolmentComponent {
+  id: string;
+  componentName: string;
+  heroSection: {
+    show?: boolean | null;
+    /**
+     * CSS color value (e.g., #ffffff, rgba(0,0,0,0.5))
+     */
+    backgroundColor?: string | null;
+    textColor?: string | null;
+    /**
+     * CSS classes for the container
+     */
+    containerClass?: string | null;
+    verticalAlign?: boolean | null;
+    leftContent: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+    leftContentColor?: string | null;
+    /**
+     * WOW.js animation class
+     */
+    leftAnimation?: string | null;
+    rightImage: {
+      image?: (string | null) | Media;
+      imageUrl?: string | null;
+      alt: string;
+      width?: number | null;
+      height?: number | null;
+    };
+    rightAnimation?: string | null;
+  };
+  enrollSection?: {
+    show?: boolean | null;
+    backgroundColor?: string | null;
+    textColor?: string | null;
+    containerClass?: string | null;
+    heading?: string | null;
+    headingColor?: string | null;
+    headingTag?: ('h1' | 'h2' | 'h3' | 'h4') | null;
+    /**
+     * Drag to reorder steps
+     */
+    steps?:
+      | {
+          stepTitle: string;
+          stepTitleBold?: boolean | null;
+          stepDescription?: string | null;
+          textColor?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    listStyle?: ('ul' | 'ol' | 'none') | null;
+  };
+  contactFormSection?: {
+    show?: boolean | null;
+    backgroundColor?: string | null;
+    textColor?: string | null;
+    containerClass?: string | null;
+    formHeading?: string | null;
+    formDescription?: string | null;
+    /**
+     * URL where form data should be submitted
+     */
+    formAction?: string | null;
+    formMethod?: ('post' | 'get') | null;
+    /**
+     * If using an external form, paste the embed code here
+     */
+    embedCode?: string | null;
+  };
+  faqSection?: {
+    show?: boolean | null;
+    backgroundColor?: string | null;
+    textColor?: string | null;
+    containerClass?: string | null;
+    backgroundImage?: {
+      mobile?: (string | null) | Media;
+      tablet?: (string | null) | Media;
+      desktop?: (string | null) | Media;
+      large?: (string | null) | Media;
+      alt?: string | null;
+    };
+    mainHeading?: string | null;
+    mainHeadingColor?: string | null;
+    mainHeadingTag?: ('h1' | 'h2' | 'h3') | null;
+    /**
+     * Drag to reorder FAQs
+     */
+    faqs?:
+      | {
+          question: string;
+          questionBold?: boolean | null;
+          questionColor?: string | null;
+          answer: {
+            root: {
+              type: string;
+              children: {
+                type: any;
+                version: number;
+                [k: string]: unknown;
+              }[];
+              direction: ('ltr' | 'rtl') | null;
+              format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+              indent: number;
+              version: number;
+            };
+            [k: string]: unknown;
+          };
+          answerColor?: string | null;
+          backgroundColor?: string | null;
+          animation?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    boxWidth?: ('normal' | 'wide' | 'wider') | null;
+  };
+  ctaSection?: {
+    show?: boolean | null;
+    backgroundColor?: string | null;
+    textColor?: string | null;
+    containerClass?: string | null;
+    contentAlignment?: ('left' | 'center' | 'right') | null;
+    heading?: string | null;
+    headingColor?: string | null;
+    description?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    descriptionColor?: string | null;
+    /**
+     * Drag to reorder buttons
+     */
+    buttons?:
+      | {
+          text: string;
+          url: string;
+          openInNewTab?: boolean | null;
+          backgroundColor?: string | null;
+          textColor?: string | null;
+          hoverBackgroundColor?: string | null;
+          hoverTextColor?: string | null;
+          className?: string | null;
+          size?: ('small' | 'medium' | 'large') | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Drag to reorder sections on the page
+   */
+  sectionOrder?:
+    | {
+        section: 'hero' | 'enroll' | 'contactForm' | 'faq' | 'cta';
+        id?: string | null;
+      }[]
+    | null;
+  globalStyles?: {
+    /**
+     * CSS max-width value (e.g., 1200px, 100%)
+     */
+    containerMaxWidth?: string | null;
+    /**
+     * CSS padding value (e.g., 20px, 1rem 2rem)
+     */
+    containerPadding?: string | null;
+    /**
+     * Spacing between sections (e.g., 60px, 4rem)
+     */
+    sectionSpacing?: string | null;
+    /**
+     * CSS font-family value
+     */
+    fontFamily?: string | null;
+    /**
+     * Primary brand color
+     */
+    primaryColor?: string | null;
+    /**
+     * Secondary brand color
+     */
+    secondaryColor?: string | null;
+    /**
+     * Default text color for the page
+     */
+    defaultTextColor?: string | null;
+    /**
+     * Default color for links
+     */
+    linkColor?: string | null;
+    /**
+     * Color for links on hover
+     */
+    linkHoverColor?: string | null;
+  };
+  typographySettings?: {
+    h1FontSize?: string | null;
+    h1Color?: string | null;
+    h1FontWeight?: string | null;
+    h2FontSize?: string | null;
+    h2Color?: string | null;
+    h2FontWeight?: string | null;
+    h3FontSize?: string | null;
+    h3Color?: string | null;
+    h3FontWeight?: string | null;
+    h4FontSize?: string | null;
+    h4Color?: string | null;
+    h4FontWeight?: string | null;
+    h5FontSize?: string | null;
+    h5Color?: string | null;
+    h5FontWeight?: string | null;
+    bodyFontSize?: string | null;
+    bodyLineHeight?: string | null;
+  };
+  buttonStyles?: {
+    defaultBackgroundColor?: string | null;
+    defaultTextColor?: string | null;
+    defaultHoverBackground?: string | null;
+    defaultHoverTextColor?: string | null;
+    /**
+     * e.g., 4px, 0.5rem
+     */
+    borderRadius?: string | null;
+    /**
+     * e.g., 12px 24px
+     */
+    padding?: string | null;
+    fontSize?: string | null;
+    fontWeight?: string | null;
+    textTransform?: ('none' | 'uppercase' | 'lowercase' | 'capitalize') | null;
+  };
+  animationSettings?: {
+    enableAnimations?: boolean | null;
+    /**
+     * Duration for fade in animations (e.g., 1s, 2s)
+     */
+    fadeInDuration?: string | null;
+    /**
+     * Duration for slide in animations
+     */
+    slideInDuration?: string | null;
+    /**
+     * CSS easing function
+     */
+    animationEasing?: string | null;
+  };
+  seoSettings?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+    ogImage?: (string | null) | Media;
+    /**
+     * Comma-separated keywords for SEO
+     */
+    keywords?: string | null;
+    canonicalUrl?: string | null;
+    robots?: ('index,follow' | 'noindex,follow' | 'index,nofollow' | 'noindex,nofollow') | null;
+  };
+  accessibilitySettings?: {
+    skipToContent?: boolean | null;
+    ariaLabelsEnabled?: boolean | null;
+    altTextRequired?: boolean | null;
+    /**
+     * Color for focus outlines (accessibility)
+     */
+    focusVisibleColor?: string | null;
+    contrastMode?: ('normal' | 'high' | 'very-high') | null;
+  };
+  mobileSettings?: {
+    /**
+     * Screen width for mobile (e.g., 768px)
+     */
+    mobileBreakpoint?: string | null;
+    /**
+     * Screen width for tablet (e.g., 1024px)
+     */
+    tabletBreakpoint?: string | null;
+    /**
+     * Percentage adjustment for mobile fonts (e.g., 90%)
+     */
+    mobileFontSizeAdjustment?: string | null;
+    /**
+     * Percentage adjustment for mobile spacing
+     */
+    mobileSpacingAdjustment?: string | null;
+    stackColumnsOnMobile?: boolean | null;
+  };
+  listStyles?: {
+    bulletColor?: string | null;
+    bulletStyle?: ('disc' | 'circle' | 'square' | 'none') | null;
+    /**
+     * e.g., 20px, 1.5rem
+     */
+    listMarginLeft?: string | null;
+    /**
+     * Spacing between list items (e.g., 10px)
+     */
+    listItemSpacing?: string | null;
+  };
+  imageSettings?: {
+    lazyLoading?: boolean | null;
+    imageQuality?: ('low' | 'medium' | 'high' | 'original') | null;
+    /**
+     * Automatically optimize image format (WebP, etc.)
+     */
+    autoFormat?: boolean | null;
+    autoCompress?: boolean | null;
+    /**
+     * Generate multiple image sizes for different screens
+     */
+    responsiveImages?: boolean | null;
+  };
+  customCSS?: {
+    /**
+     * Add custom CSS styles for this component
+     */
+    additionalCSS?: string | null;
+    /**
+     * Add custom CSS class names to sections
+     */
+    cssClasses?:
+      | {
+          section?: ('hero' | 'enroll' | 'contactForm' | 'faq' | 'cta') | null;
+          className: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  linkSettings?: {
+    defaultLinkTarget?: ('_self' | '_blank') | null;
+    linkUnderline?: ('none' | 'always' | 'hover') | null;
+    /**
+     * CSS transition for links (e.g., all 0.3s ease)
+     */
+    linkTransition?: string | null;
+  };
+  spacingSettings?: {
+    /**
+     * Padding/margin for hero section (e.g., 60px 0)
+     */
+    heroSectionSpacing?: string | null;
+    enrollSectionSpacing?: string | null;
+    contactFormSectionSpacing?: string | null;
+    faqSectionSpacing?: string | null;
+    ctaSectionSpacing?: string | null;
+    /**
+     * Spacing between elements within sections (e.g., 20px)
+     */
+    elementSpacing?: string | null;
+  };
+  borderShadowSettings?: {
+    /**
+     * Border radius for boxes (e.g., 8px)
+     */
+    boxBorderRadius?: string | null;
+    /**
+     * CSS box-shadow value
+     */
+    boxShadow?: string | null;
+    boxHoverShadow?: string | null;
+    imageBorderRadius?: string | null;
+    imageShadow?: string | null;
+    /**
+     * Border for sections (e.g., 1px solid #ccc)
+     */
+    sectionBorder?: string | null;
+  };
+  columnWidthSettings?: {
+    /**
+     * Width for left column (e.g., 50%, 60%)
+     */
+    twoColumnLeftWidth?: string | null;
+    twoColumnRightWidth?: string | null;
+    /**
+     * Space between columns (e.g., 20px, 2rem)
+     */
+    columnGap?: string | null;
+  };
+  hoverEffects?: {
+    enableBoxHover?: boolean | null;
+    /**
+     * CSS transform on hover (e.g., translateY(-5px))
+     */
+    boxHoverTransform?: string | null;
+    boxHoverTransition?: string | null;
+    imageHoverEffect?: ('none' | 'zoom-in' | 'zoom-out' | 'opacity') | null;
+    /**
+     * Opacity value on hover (e.g., 0.8)
+     */
+    imageHoverOpacity?: string | null;
+  };
+  gridSettings?: {
+    /**
+     * Number of columns in FAQ grid on desktop
+     */
+    faqGridColumns?: number | null;
+    faqGridColumnsTablet?: number | null;
+    faqGridColumnsMobile?: number | null;
+    /**
+     * Space between grid items (e.g., 20px)
+     */
+    faqGridGap?: string | null;
+  };
+  backgroundSettings?: {
+    backgroundImageSize?: ('cover' | 'contain' | 'auto') | null;
+    backgroundImagePosition?: ('center' | 'top' | 'bottom' | 'left' | 'right') | null;
+    backgroundImageRepeat?: ('no-repeat' | 'repeat' | 'repeat-x' | 'repeat-y') | null;
+    backgroundOverlay?: boolean | null;
+    /**
+     * RGBA color value (e.g., rgba(0,0,0,0.5))
+     */
+    backgroundOverlayColor?: string | null;
+  };
+  /**
+   * Toggle to enable/disable this component
+   */
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "plastic-surgery-page-component".
  */
 export interface PlasticSurgeryPageComponent {
@@ -27947,6 +28400,7 @@ export interface Blog {
 export interface Location {
   id: string;
   name: string;
+  googleMaps?: string | null;
   image: string | Media;
   alt: string;
   address: string;
@@ -27988,6 +28442,7 @@ export interface Location {
 export interface Provider {
   id: string;
   name: string;
+  googleMaps?: string | null;
   title: string;
   image: string | Media;
   /**
@@ -36788,6 +37243,480 @@ export interface SatelliteLocationsPageComponent {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "daytona-beach-location-page-component".
+ */
+export interface DaytonaBeachLocationPageComponent {
+  id: string;
+  componentName: string;
+  heroSection: {
+    show?: boolean | null;
+    backgroundColor?: string | null;
+    cssClasses?: string | null;
+    backgroundImage?: {
+      mobile?: (string | null) | Media;
+      tablet?: (string | null) | Media;
+      desktop?: (string | null) | Media;
+      large?: (string | null) | Media;
+      alt?: string | null;
+      url?: string | null;
+    };
+    /**
+     * Drag to reorder breadcrumb items
+     */
+    breadcrumbs?:
+      | {
+          label: string;
+          url: string;
+          ariaLabel?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    title: string;
+    titleColor?: string | null;
+    content?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    contentText?: string | null;
+    mediaImage?: {
+      mobile?: (string | null) | Media;
+      tablet?: (string | null) | Media;
+      desktop?: (string | null) | Media;
+      large?: (string | null) | Media;
+      alt?: string | null;
+      url?: string | null;
+    };
+  };
+  introColumnSection: {
+    show?: boolean | null;
+    backgroundColor?: string | null;
+    textColor?: string | null;
+    cssClasses?: string | null;
+    rowCssClasses?: string | null;
+    logo?: (string | null) | Media;
+    logoUrl?: string | null;
+    logoAlt?: string | null;
+    logoWidth?: number | null;
+    logoHeight?: number | null;
+    heading: string;
+    headingColor?: string | null;
+    content?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    contentText?: string | null;
+    button?: {
+      show?: boolean | null;
+      text?: string | null;
+      url?: string | null;
+      cssClass?: string | null;
+    };
+    maxWidth?: string | null;
+    textAlign?: ('text-left' | 'text-center' | 'text-right') | null;
+  };
+  boxGridSection1?: {
+    show?: boolean | null;
+    backgroundColor?: string | null;
+    textColor?: string | null;
+    cssClasses?: string | null;
+    backgroundImage?: {
+      mobile?: (string | null) | Media;
+      tablet?: (string | null) | Media;
+      desktop?: (string | null) | Media;
+      large?: (string | null) | Media;
+      alt?: string | null;
+      url?: string | null;
+    };
+    heading?: string | null;
+    headingSpan?: string | null;
+    headingColor?: string | null;
+    introText?: string | null;
+    /**
+     * Drag to reorder boxes
+     */
+    boxes?:
+      | {
+          heading: string;
+          content: string;
+          button?: {
+            show?: boolean | null;
+            text?: string | null;
+            url?: string | null;
+            cssClass?: string | null;
+          };
+          animationClass?: ('fadeInUp' | 'fadeInLeft' | 'fadeInRight' | '') | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  columnSection1: {
+    show?: boolean | null;
+    backgroundColor?: string | null;
+    textColor?: string | null;
+    cssClasses?: string | null;
+    rowCssClasses?: string | null;
+    mediaPosition?: ('media-left' | 'media-right') | null;
+    heading: string;
+    headingColor?: string | null;
+    content?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    contentText?: string | null;
+    image?: {
+      mobile?: (string | null) | Media;
+      tablet?: (string | null) | Media;
+      desktop?: (string | null) | Media;
+      large?: (string | null) | Media;
+      alt?: string | null;
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+    };
+  };
+  bannerSection1?: {
+    show?: boolean | null;
+    backgroundColor?: string | null;
+    textColor?: string | null;
+    cssClasses?: string | null;
+    animationClass?: ('fadeInUp' | 'fadeInLeft' | 'fadeInRight' | '') | null;
+    backgroundImage?: {
+      mobile?: (string | null) | Media;
+      tablet?: (string | null) | Media;
+      desktop?: (string | null) | Media;
+      large?: (string | null) | Media;
+      alt?: string | null;
+      url?: string | null;
+    };
+    heading?: string | null;
+    headingColor?: string | null;
+    content?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    contentText?: string | null;
+    layout?: ('single' | 'columns-two') | null;
+    verticalAlign?: boolean | null;
+  };
+  columnSection2: {
+    show?: boolean | null;
+    backgroundColor?: string | null;
+    textColor?: string | null;
+    cssClasses?: string | null;
+    rowCssClasses?: string | null;
+    heading: string;
+    headingColor?: string | null;
+    subheading?: string | null;
+    content?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    /**
+     * Drag to reorder service links
+     */
+    serviceLinks?:
+      | {
+          title: string;
+          url: string;
+          description: string;
+          id?: string | null;
+        }[]
+      | null;
+    textAlign?: ('text-left' | 'text-center' | 'text-right') | null;
+  };
+  halfImageSection1: {
+    show?: boolean | null;
+    backgroundColor?: string | null;
+    textColor?: string | null;
+    cssClasses?: string | null;
+    rowCssClasses?: string | null;
+    flipped?: boolean | null;
+    heading: string;
+    headingColor?: string | null;
+    content?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    contentText?: string | null;
+    textAlign?: ('text-left' | 'text-center' | 'text-right') | null;
+    image?: {
+      mobile?: (string | null) | Media;
+      tablet?: (string | null) | Media;
+      desktop?: (string | null) | Media;
+      large?: (string | null) | Media;
+      alt?: string | null;
+      url?: string | null;
+    };
+  };
+  columnSection3: {
+    show?: boolean | null;
+    backgroundColor?: string | null;
+    textColor?: string | null;
+    cssClasses?: string | null;
+    rowCssClasses?: string | null;
+    heading: string;
+    headingColor?: string | null;
+    content?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    contentText?: string | null;
+  };
+  bannerSection2?: {
+    show?: boolean | null;
+    backgroundColor?: string | null;
+    textColor?: string | null;
+    cssClasses?: string | null;
+    animationClass?: ('fadeInUp' | 'fadeInLeft' | 'fadeInRight' | '') | null;
+    backgroundImage?: {
+      mobile?: (string | null) | Media;
+      tablet?: (string | null) | Media;
+      desktop?: (string | null) | Media;
+      large?: (string | null) | Media;
+      alt?: string | null;
+      url?: string | null;
+    };
+    heading?: string | null;
+    headingSpan?: string | null;
+    headingColor?: string | null;
+    content?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    contentText?: string | null;
+    layout?: ('single' | 'columns-two') | null;
+    verticalAlign?: boolean | null;
+  };
+  columnSection4: {
+    show?: boolean | null;
+    backgroundColor?: string | null;
+    textColor?: string | null;
+    cssClasses?: string | null;
+    rowCssClasses?: string | null;
+    heading: string;
+    headingSmall?: string | null;
+    headingColor?: string | null;
+    subheading?: string | null;
+    content?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    /**
+     * Drag to reorder service links
+     */
+    serviceLinks?:
+      | {
+          title: string;
+          url: string;
+          description: string;
+          id?: string | null;
+        }[]
+      | null;
+    textAlign?: ('text-left' | 'text-center' | 'text-right') | null;
+  };
+  ctaSection?: {
+    show?: boolean | null;
+    backgroundColor?: string | null;
+    textColor?: string | null;
+    cssClasses?: string | null;
+    heading?: string | null;
+    headingUrl?: string | null;
+    button?: {
+      show?: boolean | null;
+      text?: string | null;
+      url?: string | null;
+      cssClass?: string | null;
+    };
+  };
+  twoColumnSection?: {
+    show?: boolean | null;
+    backgroundColor?: string | null;
+    textColor?: string | null;
+    cssClasses?: string | null;
+    rowCssClasses?: string | null;
+    leftHeading?: string | null;
+    leftHeadingSmall?: string | null;
+    rightContent?: string | null;
+    verticalAlign?: boolean | null;
+    leftAnimationClass?: ('fadeInUp' | 'fadeInLeft' | 'fadeInRight' | '') | null;
+    rightAnimationClass?: ('fadeInUp' | 'fadeInLeft' | 'fadeInRight' | '') | null;
+  };
+  columnSection5: {
+    show?: boolean | null;
+    backgroundColor?: string | null;
+    textColor?: string | null;
+    cssClasses?: string | null;
+    rowCssClasses?: string | null;
+    mediaPosition?: ('media-left' | 'media-right') | null;
+    heading: string;
+    headingColor?: string | null;
+    content?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    contentText?: string | null;
+    image?: {
+      mobile?: (string | null) | Media;
+      tablet?: (string | null) | Media;
+      desktop?: (string | null) | Media;
+      large?: (string | null) | Media;
+      alt?: string | null;
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+    };
+  };
+  /**
+   * Drag to reorder sections on the page
+   */
+  sectionOrder?:
+    | {
+        section:
+          | 'hero'
+          | 'introColumn'
+          | 'boxGrid1'
+          | 'column1'
+          | 'banner1'
+          | 'column2'
+          | 'halfImage1'
+          | 'column3'
+          | 'banner2'
+          | 'column4'
+          | 'cta'
+          | 'twoColumn'
+          | 'column5';
+        id?: string | null;
+      }[]
+    | null;
+  globalStyles?: {
+    primaryColor?: string | null;
+    secondaryColor?: string | null;
+    textColor?: string | null;
+    linkColor?: string | null;
+    backgroundColor?: string | null;
+  };
+  seoSettings?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+    keywords?: string | null;
+    ogImage?: (string | null) | Media;
+  };
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "contact-component".
  */
 export interface ContactComponent {
@@ -37169,6 +38098,310 @@ export interface SpecialContactFormSubmission {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footerComponent".
+ */
+export interface FooterComponent {
+  id: string;
+  componentName: string;
+  ctaSubSection?: {
+    show?: boolean | null;
+    backgroundColor?: string | null;
+    textColor?: string | null;
+    containerClass?: string | null;
+    mainHeading?: {
+      smallText?: string | null;
+      mainText?: string | null;
+      link?: string | null;
+      color?: string | null;
+    };
+    testimonial?: {
+      text?: string | null;
+      isItalic?: boolean | null;
+      color?: string | null;
+    };
+    ctaButton?: {
+      text?: string | null;
+      url?: string | null;
+      className?: string | null;
+      backgroundColor?: string | null;
+      textColor?: string | null;
+    };
+    mediaSection?: {
+      titleLine1?: string | null;
+      titleLine2?: string | null;
+      desktopImage?: {
+        image?: (string | null) | Media;
+        imageUrl?: string | null;
+        alt?: string | null;
+        width?: number | null;
+        height?: number | null;
+      };
+      mobileImage?: {
+        image?: (string | null) | Media;
+        imageUrl?: string | null;
+        alt?: string | null;
+        width?: number | null;
+        height?: number | null;
+      };
+    };
+  };
+  footerMainSection?: {
+    show?: boolean | null;
+    backgroundColor?: string | null;
+    textColor?: string | null;
+    containerClass?: string | null;
+    fixedCta?: {
+      show?: boolean | null;
+      buttons?:
+        | {
+            text: string;
+            url: string;
+            /**
+             * Format: +14073334300
+             */
+            phoneNumber?: string | null;
+            /**
+             * Format: (407) 333-4300
+             */
+            displayNumber?: string | null;
+            className?: string | null;
+            ariaLabel?: string | null;
+            backgroundColor?: string | null;
+            textColor?: string | null;
+            id?: string | null;
+          }[]
+        | null;
+    };
+    /**
+     * Drag to reorder navigation links
+     */
+    navigationLinks?:
+      | {
+          text: string;
+          url: string;
+          isActive?: boolean | null;
+          isMegaMenu?: boolean | null;
+          color?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Drag to reorder social links
+     */
+    socialLinks?:
+      | {
+          platform: 'instagram' | 'facebook' | 'youtube' | 'twitter' | 'linkedin' | 'tiktok';
+          url: string;
+          title?: string | null;
+          ariaLabel?: string | null;
+          iconClass?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    logo?: {
+      image?: (string | null) | Media;
+      imageUrl?: string | null;
+      alt?: string | null;
+      width?: number | null;
+      height?: number | null;
+      linkUrl?: string | null;
+    };
+    reviews?: {
+      show?: boolean | null;
+      rating?: number | null;
+      totalReviews?: number | null;
+      reviewsUrl?: string | null;
+      ariaLabel?: string | null;
+      textColor?: string | null;
+      starColor?: string | null;
+    };
+    contactInfo?: {
+      heading?: string | null;
+      phoneNumber?: string | null;
+      displayNumber?: string | null;
+      locationText?: string | null;
+      locationUrl?: string | null;
+      headingColor?: string | null;
+      textColor?: string | null;
+    };
+  };
+  trademarkSection?: {
+    show?: boolean | null;
+    backgroundColor?: string | null;
+    textColor?: string | null;
+    copyrightText?: string | null;
+    rightsReservedText?: string | null;
+    /**
+     * Drag to reorder legal links
+     */
+    legalLinks?:
+      | {
+          text: string;
+          url: string;
+          color?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    designCredit?: {
+      show?: boolean | null;
+      url?: string | null;
+      mainText?: string | null;
+      subText?: string | null;
+      ariaLabel?: string | null;
+      textColor?: string | null;
+    };
+  };
+  disclaimerSection?: {
+    show?: boolean | null;
+    backgroundColor?: string | null;
+    textColor?: string | null;
+    heading?: string | null;
+    text?: string | null;
+    phoneNumber?: string | null;
+    displayNumber?: string | null;
+  };
+  stickyForm?: {
+    show?: boolean | null;
+    text?: string | null;
+    url?: string | null;
+    ariaLabel?: string | null;
+    backgroundColor?: string | null;
+    textColor?: string | null;
+  };
+  /**
+   * Drag to reorder sections on the page
+   */
+  sectionOrder?:
+    | {
+        section: 'ctaSub' | 'footerMain' | 'trademark' | 'disclaimer' | 'stickyForm';
+        id?: string | null;
+      }[]
+    | null;
+  globalStyles?: {
+    containerMaxWidth?: string | null;
+    containerPadding?: string | null;
+    sectionSpacing?: string | null;
+    fontFamily?: string | null;
+    primaryColor?: string | null;
+    secondaryColor?: string | null;
+    linkColor?: string | null;
+    linkHoverColor?: string | null;
+  };
+  typographySettings?: {
+    h1FontSize?: string | null;
+    h2FontSize?: string | null;
+    h3FontSize?: string | null;
+    bodyFontSize?: string | null;
+    bodyLineHeight?: string | null;
+  };
+  buttonStyles?: {
+    defaultBackgroundColor?: string | null;
+    defaultTextColor?: string | null;
+    defaultHoverBackground?: string | null;
+    defaultHoverTextColor?: string | null;
+    borderRadius?: string | null;
+    padding?: string | null;
+    fontSize?: string | null;
+    fontWeight?: string | null;
+  };
+  animationSettings?: {
+    enableAnimations?: boolean | null;
+    fadeInDuration?: string | null;
+    transitionDuration?: string | null;
+  };
+  mobileSettings?: {
+    mobileBreakpoint?: string | null;
+    tabletBreakpoint?: string | null;
+    showMobileNav?: boolean | null;
+  };
+  spacingSettings?: {
+    ctaSubSectionSpacing?: string | null;
+    footerMainSpacing?: string | null;
+    trademarkSpacing?: string | null;
+    elementSpacing?: string | null;
+  };
+  borderShadowSettings?: {
+    borderRadius?: string | null;
+    boxShadow?: string | null;
+    hoverShadow?: string | null;
+  };
+  customCSS?: {
+    /**
+     * Add custom CSS styles for this component
+     */
+    additionalCSS?: string | null;
+    cssClasses?:
+      | {
+          section?: ('ctaSub' | 'footerMain' | 'trademark' | 'disclaimer') | null;
+          className: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  linkSettings?: {
+    defaultLinkTarget?: ('_self' | '_blank') | null;
+    externalLinkTarget?: ('_self' | '_blank') | null;
+    linkTransition?: string | null;
+  };
+  hoverEffects?: {
+    enableLinkHover?: boolean | null;
+    linkHoverColor?: string | null;
+    buttonHoverTransform?: string | null;
+    hoverTransition?: string | null;
+  };
+  seoSettings?: {
+    /**
+     * Add structured data for organization, contact info, etc.
+     */
+    structuredData?: string | null;
+  };
+  accessibilitySettings?: {
+    ariaLabelsEnabled?: boolean | null;
+    focusVisibleColor?: string | null;
+    skipLinksEnabled?: boolean | null;
+  };
+  /**
+   * Toggle to enable/disable this component
+   */
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * All searchable pages on the website
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: string;
+  /**
+   * Page title shown in search results
+   */
+  title: string;
+  /**
+   * Full URL path (e.g., /medical-spa/botox/)
+   */
+  url: string;
+  /**
+   * Brief description shown in search results
+   */
+  description?: string | null;
+  category?: ('medical-spa' | 'plastic-surgery' | 'gallery' | 'about' | 'other') | null;
+  /**
+   * Additional keywords to help with search
+   */
+  keywords?:
+    | {
+        keyword?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -37447,6 +38680,10 @@ export interface PayloadLockedDocument {
         value: string | TrainingApplicationSimpleComponent;
       } | null)
     | ({
+        relationTo: 'enrolmentComponent';
+        value: string | EnrolmentComponent;
+      } | null)
+    | ({
         relationTo: 'plastic-surgery-page-component';
         value: string | PlasticSurgeryPageComponent;
       } | null)
@@ -37579,6 +38816,10 @@ export interface PayloadLockedDocument {
         value: string | SatelliteLocationsPageComponent;
       } | null)
     | ({
+        relationTo: 'daytona-beach-location-page-component';
+        value: string | DaytonaBeachLocationPageComponent;
+      } | null)
+    | ({
         relationTo: 'contact-component';
         value: string | ContactComponent;
       } | null)
@@ -37597,6 +38838,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'special-contact-form-submissions';
         value: string | SpecialContactFormSubmission;
+      } | null)
+    | ({
+        relationTo: 'footerComponent';
+        value: string | FooterComponent;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: string | Page;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -37667,10 +38916,9 @@ export interface UsersSelect<T extends boolean = true> {
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
   cloudinary_url?: T;
   public_id?: T;
-  resource_type?: T;
-  original_filename?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -53254,6 +54502,310 @@ export interface TrainingApplicationSimpleComponentSelect<T extends boolean = tr
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "enrolmentComponent_select".
+ */
+export interface EnrolmentComponentSelect<T extends boolean = true> {
+  componentName?: T;
+  heroSection?:
+    | T
+    | {
+        show?: T;
+        backgroundColor?: T;
+        textColor?: T;
+        containerClass?: T;
+        verticalAlign?: T;
+        leftContent?: T;
+        leftContentColor?: T;
+        leftAnimation?: T;
+        rightImage?:
+          | T
+          | {
+              image?: T;
+              imageUrl?: T;
+              alt?: T;
+              width?: T;
+              height?: T;
+            };
+        rightAnimation?: T;
+      };
+  enrollSection?:
+    | T
+    | {
+        show?: T;
+        backgroundColor?: T;
+        textColor?: T;
+        containerClass?: T;
+        heading?: T;
+        headingColor?: T;
+        headingTag?: T;
+        steps?:
+          | T
+          | {
+              stepTitle?: T;
+              stepTitleBold?: T;
+              stepDescription?: T;
+              textColor?: T;
+              id?: T;
+            };
+        listStyle?: T;
+      };
+  contactFormSection?:
+    | T
+    | {
+        show?: T;
+        backgroundColor?: T;
+        textColor?: T;
+        containerClass?: T;
+        formHeading?: T;
+        formDescription?: T;
+        formAction?: T;
+        formMethod?: T;
+        embedCode?: T;
+      };
+  faqSection?:
+    | T
+    | {
+        show?: T;
+        backgroundColor?: T;
+        textColor?: T;
+        containerClass?: T;
+        backgroundImage?:
+          | T
+          | {
+              mobile?: T;
+              tablet?: T;
+              desktop?: T;
+              large?: T;
+              alt?: T;
+            };
+        mainHeading?: T;
+        mainHeadingColor?: T;
+        mainHeadingTag?: T;
+        faqs?:
+          | T
+          | {
+              question?: T;
+              questionBold?: T;
+              questionColor?: T;
+              answer?: T;
+              answerColor?: T;
+              backgroundColor?: T;
+              animation?: T;
+              id?: T;
+            };
+        boxWidth?: T;
+      };
+  ctaSection?:
+    | T
+    | {
+        show?: T;
+        backgroundColor?: T;
+        textColor?: T;
+        containerClass?: T;
+        contentAlignment?: T;
+        heading?: T;
+        headingColor?: T;
+        description?: T;
+        descriptionColor?: T;
+        buttons?:
+          | T
+          | {
+              text?: T;
+              url?: T;
+              openInNewTab?: T;
+              backgroundColor?: T;
+              textColor?: T;
+              hoverBackgroundColor?: T;
+              hoverTextColor?: T;
+              className?: T;
+              size?: T;
+              id?: T;
+            };
+      };
+  sectionOrder?:
+    | T
+    | {
+        section?: T;
+        id?: T;
+      };
+  globalStyles?:
+    | T
+    | {
+        containerMaxWidth?: T;
+        containerPadding?: T;
+        sectionSpacing?: T;
+        fontFamily?: T;
+        primaryColor?: T;
+        secondaryColor?: T;
+        defaultTextColor?: T;
+        linkColor?: T;
+        linkHoverColor?: T;
+      };
+  typographySettings?:
+    | T
+    | {
+        h1FontSize?: T;
+        h1Color?: T;
+        h1FontWeight?: T;
+        h2FontSize?: T;
+        h2Color?: T;
+        h2FontWeight?: T;
+        h3FontSize?: T;
+        h3Color?: T;
+        h3FontWeight?: T;
+        h4FontSize?: T;
+        h4Color?: T;
+        h4FontWeight?: T;
+        h5FontSize?: T;
+        h5Color?: T;
+        h5FontWeight?: T;
+        bodyFontSize?: T;
+        bodyLineHeight?: T;
+      };
+  buttonStyles?:
+    | T
+    | {
+        defaultBackgroundColor?: T;
+        defaultTextColor?: T;
+        defaultHoverBackground?: T;
+        defaultHoverTextColor?: T;
+        borderRadius?: T;
+        padding?: T;
+        fontSize?: T;
+        fontWeight?: T;
+        textTransform?: T;
+      };
+  animationSettings?:
+    | T
+    | {
+        enableAnimations?: T;
+        fadeInDuration?: T;
+        slideInDuration?: T;
+        animationEasing?: T;
+      };
+  seoSettings?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        ogImage?: T;
+        keywords?: T;
+        canonicalUrl?: T;
+        robots?: T;
+      };
+  accessibilitySettings?:
+    | T
+    | {
+        skipToContent?: T;
+        ariaLabelsEnabled?: T;
+        altTextRequired?: T;
+        focusVisibleColor?: T;
+        contrastMode?: T;
+      };
+  mobileSettings?:
+    | T
+    | {
+        mobileBreakpoint?: T;
+        tabletBreakpoint?: T;
+        mobileFontSizeAdjustment?: T;
+        mobileSpacingAdjustment?: T;
+        stackColumnsOnMobile?: T;
+      };
+  listStyles?:
+    | T
+    | {
+        bulletColor?: T;
+        bulletStyle?: T;
+        listMarginLeft?: T;
+        listItemSpacing?: T;
+      };
+  imageSettings?:
+    | T
+    | {
+        lazyLoading?: T;
+        imageQuality?: T;
+        autoFormat?: T;
+        autoCompress?: T;
+        responsiveImages?: T;
+      };
+  customCSS?:
+    | T
+    | {
+        additionalCSS?: T;
+        cssClasses?:
+          | T
+          | {
+              section?: T;
+              className?: T;
+              id?: T;
+            };
+      };
+  linkSettings?:
+    | T
+    | {
+        defaultLinkTarget?: T;
+        linkUnderline?: T;
+        linkTransition?: T;
+      };
+  spacingSettings?:
+    | T
+    | {
+        heroSectionSpacing?: T;
+        enrollSectionSpacing?: T;
+        contactFormSectionSpacing?: T;
+        faqSectionSpacing?: T;
+        ctaSectionSpacing?: T;
+        elementSpacing?: T;
+      };
+  borderShadowSettings?:
+    | T
+    | {
+        boxBorderRadius?: T;
+        boxShadow?: T;
+        boxHoverShadow?: T;
+        imageBorderRadius?: T;
+        imageShadow?: T;
+        sectionBorder?: T;
+      };
+  columnWidthSettings?:
+    | T
+    | {
+        twoColumnLeftWidth?: T;
+        twoColumnRightWidth?: T;
+        columnGap?: T;
+      };
+  hoverEffects?:
+    | T
+    | {
+        enableBoxHover?: T;
+        boxHoverTransform?: T;
+        boxHoverTransition?: T;
+        imageHoverEffect?: T;
+        imageHoverOpacity?: T;
+      };
+  gridSettings?:
+    | T
+    | {
+        faqGridColumns?: T;
+        faqGridColumnsTablet?: T;
+        faqGridColumnsMobile?: T;
+        faqGridGap?: T;
+      };
+  backgroundSettings?:
+    | T
+    | {
+        backgroundImageSize?: T;
+        backgroundImagePosition?: T;
+        backgroundImageRepeat?: T;
+        backgroundOverlay?: T;
+        backgroundOverlayColor?: T;
+      };
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "plastic-surgery-page-component_select".
  */
 export interface PlasticSurgeryPageComponentSelect<T extends boolean = true> {
@@ -55402,6 +56954,7 @@ export interface BlogSelect<T extends boolean = true> {
  */
 export interface LocationsSelect<T extends boolean = true> {
   name?: T;
+  googleMaps?: T;
   image?: T;
   alt?: T;
   address?: T;
@@ -55440,6 +56993,7 @@ export interface LocationsSelect<T extends boolean = true> {
  */
 export interface ProvidersSelect<T extends boolean = true> {
   name?: T;
+  googleMaps?: T;
   title?: T;
   image?: T;
   backgroundImage?: T;
@@ -61359,6 +62913,363 @@ export interface SatelliteLocationsPageComponentSelect<T extends boolean = true>
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "daytona-beach-location-page-component_select".
+ */
+export interface DaytonaBeachLocationPageComponentSelect<T extends boolean = true> {
+  componentName?: T;
+  heroSection?:
+    | T
+    | {
+        show?: T;
+        backgroundColor?: T;
+        cssClasses?: T;
+        backgroundImage?:
+          | T
+          | {
+              mobile?: T;
+              tablet?: T;
+              desktop?: T;
+              large?: T;
+              alt?: T;
+              url?: T;
+            };
+        breadcrumbs?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+              ariaLabel?: T;
+              id?: T;
+            };
+        title?: T;
+        titleColor?: T;
+        content?: T;
+        contentText?: T;
+        mediaImage?:
+          | T
+          | {
+              mobile?: T;
+              tablet?: T;
+              desktop?: T;
+              large?: T;
+              alt?: T;
+              url?: T;
+            };
+      };
+  introColumnSection?:
+    | T
+    | {
+        show?: T;
+        backgroundColor?: T;
+        textColor?: T;
+        cssClasses?: T;
+        rowCssClasses?: T;
+        logo?: T;
+        logoUrl?: T;
+        logoAlt?: T;
+        logoWidth?: T;
+        logoHeight?: T;
+        heading?: T;
+        headingColor?: T;
+        content?: T;
+        contentText?: T;
+        button?:
+          | T
+          | {
+              show?: T;
+              text?: T;
+              url?: T;
+              cssClass?: T;
+            };
+        maxWidth?: T;
+        textAlign?: T;
+      };
+  boxGridSection1?:
+    | T
+    | {
+        show?: T;
+        backgroundColor?: T;
+        textColor?: T;
+        cssClasses?: T;
+        backgroundImage?:
+          | T
+          | {
+              mobile?: T;
+              tablet?: T;
+              desktop?: T;
+              large?: T;
+              alt?: T;
+              url?: T;
+            };
+        heading?: T;
+        headingSpan?: T;
+        headingColor?: T;
+        introText?: T;
+        boxes?:
+          | T
+          | {
+              heading?: T;
+              content?: T;
+              button?:
+                | T
+                | {
+                    show?: T;
+                    text?: T;
+                    url?: T;
+                    cssClass?: T;
+                  };
+              animationClass?: T;
+              id?: T;
+            };
+      };
+  columnSection1?:
+    | T
+    | {
+        show?: T;
+        backgroundColor?: T;
+        textColor?: T;
+        cssClasses?: T;
+        rowCssClasses?: T;
+        mediaPosition?: T;
+        heading?: T;
+        headingColor?: T;
+        content?: T;
+        contentText?: T;
+        image?:
+          | T
+          | {
+              mobile?: T;
+              tablet?: T;
+              desktop?: T;
+              large?: T;
+              alt?: T;
+              url?: T;
+              width?: T;
+              height?: T;
+            };
+      };
+  bannerSection1?:
+    | T
+    | {
+        show?: T;
+        backgroundColor?: T;
+        textColor?: T;
+        cssClasses?: T;
+        animationClass?: T;
+        backgroundImage?:
+          | T
+          | {
+              mobile?: T;
+              tablet?: T;
+              desktop?: T;
+              large?: T;
+              alt?: T;
+              url?: T;
+            };
+        heading?: T;
+        headingColor?: T;
+        content?: T;
+        contentText?: T;
+        layout?: T;
+        verticalAlign?: T;
+      };
+  columnSection2?:
+    | T
+    | {
+        show?: T;
+        backgroundColor?: T;
+        textColor?: T;
+        cssClasses?: T;
+        rowCssClasses?: T;
+        heading?: T;
+        headingColor?: T;
+        subheading?: T;
+        content?: T;
+        serviceLinks?:
+          | T
+          | {
+              title?: T;
+              url?: T;
+              description?: T;
+              id?: T;
+            };
+        textAlign?: T;
+      };
+  halfImageSection1?:
+    | T
+    | {
+        show?: T;
+        backgroundColor?: T;
+        textColor?: T;
+        cssClasses?: T;
+        rowCssClasses?: T;
+        flipped?: T;
+        heading?: T;
+        headingColor?: T;
+        content?: T;
+        contentText?: T;
+        textAlign?: T;
+        image?:
+          | T
+          | {
+              mobile?: T;
+              tablet?: T;
+              desktop?: T;
+              large?: T;
+              alt?: T;
+              url?: T;
+            };
+      };
+  columnSection3?:
+    | T
+    | {
+        show?: T;
+        backgroundColor?: T;
+        textColor?: T;
+        cssClasses?: T;
+        rowCssClasses?: T;
+        heading?: T;
+        headingColor?: T;
+        content?: T;
+        contentText?: T;
+      };
+  bannerSection2?:
+    | T
+    | {
+        show?: T;
+        backgroundColor?: T;
+        textColor?: T;
+        cssClasses?: T;
+        animationClass?: T;
+        backgroundImage?:
+          | T
+          | {
+              mobile?: T;
+              tablet?: T;
+              desktop?: T;
+              large?: T;
+              alt?: T;
+              url?: T;
+            };
+        heading?: T;
+        headingSpan?: T;
+        headingColor?: T;
+        content?: T;
+        contentText?: T;
+        layout?: T;
+        verticalAlign?: T;
+      };
+  columnSection4?:
+    | T
+    | {
+        show?: T;
+        backgroundColor?: T;
+        textColor?: T;
+        cssClasses?: T;
+        rowCssClasses?: T;
+        heading?: T;
+        headingSmall?: T;
+        headingColor?: T;
+        subheading?: T;
+        content?: T;
+        serviceLinks?:
+          | T
+          | {
+              title?: T;
+              url?: T;
+              description?: T;
+              id?: T;
+            };
+        textAlign?: T;
+      };
+  ctaSection?:
+    | T
+    | {
+        show?: T;
+        backgroundColor?: T;
+        textColor?: T;
+        cssClasses?: T;
+        heading?: T;
+        headingUrl?: T;
+        button?:
+          | T
+          | {
+              show?: T;
+              text?: T;
+              url?: T;
+              cssClass?: T;
+            };
+      };
+  twoColumnSection?:
+    | T
+    | {
+        show?: T;
+        backgroundColor?: T;
+        textColor?: T;
+        cssClasses?: T;
+        rowCssClasses?: T;
+        leftHeading?: T;
+        leftHeadingSmall?: T;
+        rightContent?: T;
+        verticalAlign?: T;
+        leftAnimationClass?: T;
+        rightAnimationClass?: T;
+      };
+  columnSection5?:
+    | T
+    | {
+        show?: T;
+        backgroundColor?: T;
+        textColor?: T;
+        cssClasses?: T;
+        rowCssClasses?: T;
+        mediaPosition?: T;
+        heading?: T;
+        headingColor?: T;
+        content?: T;
+        contentText?: T;
+        image?:
+          | T
+          | {
+              mobile?: T;
+              tablet?: T;
+              desktop?: T;
+              large?: T;
+              alt?: T;
+              url?: T;
+              width?: T;
+              height?: T;
+            };
+      };
+  sectionOrder?:
+    | T
+    | {
+        section?: T;
+        id?: T;
+      };
+  globalStyles?:
+    | T
+    | {
+        primaryColor?: T;
+        secondaryColor?: T;
+        textColor?: T;
+        linkColor?: T;
+        backgroundColor?: T;
+      };
+  seoSettings?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        keywords?: T;
+        ogImage?: T;
+      };
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "contact-component_select".
  */
 export interface ContactComponentSelect<T extends boolean = true> {
@@ -61610,6 +63521,323 @@ export interface SpecialContactFormSubmissionsSelect<T extends boolean = true> {
   userAgent?: T;
   referrer?: T;
   source?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footerComponent_select".
+ */
+export interface FooterComponentSelect<T extends boolean = true> {
+  componentName?: T;
+  ctaSubSection?:
+    | T
+    | {
+        show?: T;
+        backgroundColor?: T;
+        textColor?: T;
+        containerClass?: T;
+        mainHeading?:
+          | T
+          | {
+              smallText?: T;
+              mainText?: T;
+              link?: T;
+              color?: T;
+            };
+        testimonial?:
+          | T
+          | {
+              text?: T;
+              isItalic?: T;
+              color?: T;
+            };
+        ctaButton?:
+          | T
+          | {
+              text?: T;
+              url?: T;
+              className?: T;
+              backgroundColor?: T;
+              textColor?: T;
+            };
+        mediaSection?:
+          | T
+          | {
+              titleLine1?: T;
+              titleLine2?: T;
+              desktopImage?:
+                | T
+                | {
+                    image?: T;
+                    imageUrl?: T;
+                    alt?: T;
+                    width?: T;
+                    height?: T;
+                  };
+              mobileImage?:
+                | T
+                | {
+                    image?: T;
+                    imageUrl?: T;
+                    alt?: T;
+                    width?: T;
+                    height?: T;
+                  };
+            };
+      };
+  footerMainSection?:
+    | T
+    | {
+        show?: T;
+        backgroundColor?: T;
+        textColor?: T;
+        containerClass?: T;
+        fixedCta?:
+          | T
+          | {
+              show?: T;
+              buttons?:
+                | T
+                | {
+                    text?: T;
+                    url?: T;
+                    phoneNumber?: T;
+                    displayNumber?: T;
+                    className?: T;
+                    ariaLabel?: T;
+                    backgroundColor?: T;
+                    textColor?: T;
+                    id?: T;
+                  };
+            };
+        navigationLinks?:
+          | T
+          | {
+              text?: T;
+              url?: T;
+              isActive?: T;
+              isMegaMenu?: T;
+              color?: T;
+              id?: T;
+            };
+        socialLinks?:
+          | T
+          | {
+              platform?: T;
+              url?: T;
+              title?: T;
+              ariaLabel?: T;
+              iconClass?: T;
+              id?: T;
+            };
+        logo?:
+          | T
+          | {
+              image?: T;
+              imageUrl?: T;
+              alt?: T;
+              width?: T;
+              height?: T;
+              linkUrl?: T;
+            };
+        reviews?:
+          | T
+          | {
+              show?: T;
+              rating?: T;
+              totalReviews?: T;
+              reviewsUrl?: T;
+              ariaLabel?: T;
+              textColor?: T;
+              starColor?: T;
+            };
+        contactInfo?:
+          | T
+          | {
+              heading?: T;
+              phoneNumber?: T;
+              displayNumber?: T;
+              locationText?: T;
+              locationUrl?: T;
+              headingColor?: T;
+              textColor?: T;
+            };
+      };
+  trademarkSection?:
+    | T
+    | {
+        show?: T;
+        backgroundColor?: T;
+        textColor?: T;
+        copyrightText?: T;
+        rightsReservedText?: T;
+        legalLinks?:
+          | T
+          | {
+              text?: T;
+              url?: T;
+              color?: T;
+              id?: T;
+            };
+        designCredit?:
+          | T
+          | {
+              show?: T;
+              url?: T;
+              mainText?: T;
+              subText?: T;
+              ariaLabel?: T;
+              textColor?: T;
+            };
+      };
+  disclaimerSection?:
+    | T
+    | {
+        show?: T;
+        backgroundColor?: T;
+        textColor?: T;
+        heading?: T;
+        text?: T;
+        phoneNumber?: T;
+        displayNumber?: T;
+      };
+  stickyForm?:
+    | T
+    | {
+        show?: T;
+        text?: T;
+        url?: T;
+        ariaLabel?: T;
+        backgroundColor?: T;
+        textColor?: T;
+      };
+  sectionOrder?:
+    | T
+    | {
+        section?: T;
+        id?: T;
+      };
+  globalStyles?:
+    | T
+    | {
+        containerMaxWidth?: T;
+        containerPadding?: T;
+        sectionSpacing?: T;
+        fontFamily?: T;
+        primaryColor?: T;
+        secondaryColor?: T;
+        linkColor?: T;
+        linkHoverColor?: T;
+      };
+  typographySettings?:
+    | T
+    | {
+        h1FontSize?: T;
+        h2FontSize?: T;
+        h3FontSize?: T;
+        bodyFontSize?: T;
+        bodyLineHeight?: T;
+      };
+  buttonStyles?:
+    | T
+    | {
+        defaultBackgroundColor?: T;
+        defaultTextColor?: T;
+        defaultHoverBackground?: T;
+        defaultHoverTextColor?: T;
+        borderRadius?: T;
+        padding?: T;
+        fontSize?: T;
+        fontWeight?: T;
+      };
+  animationSettings?:
+    | T
+    | {
+        enableAnimations?: T;
+        fadeInDuration?: T;
+        transitionDuration?: T;
+      };
+  mobileSettings?:
+    | T
+    | {
+        mobileBreakpoint?: T;
+        tabletBreakpoint?: T;
+        showMobileNav?: T;
+      };
+  spacingSettings?:
+    | T
+    | {
+        ctaSubSectionSpacing?: T;
+        footerMainSpacing?: T;
+        trademarkSpacing?: T;
+        elementSpacing?: T;
+      };
+  borderShadowSettings?:
+    | T
+    | {
+        borderRadius?: T;
+        boxShadow?: T;
+        hoverShadow?: T;
+      };
+  customCSS?:
+    | T
+    | {
+        additionalCSS?: T;
+        cssClasses?:
+          | T
+          | {
+              section?: T;
+              className?: T;
+              id?: T;
+            };
+      };
+  linkSettings?:
+    | T
+    | {
+        defaultLinkTarget?: T;
+        externalLinkTarget?: T;
+        linkTransition?: T;
+      };
+  hoverEffects?:
+    | T
+    | {
+        enableLinkHover?: T;
+        linkHoverColor?: T;
+        buttonHoverTransform?: T;
+        hoverTransition?: T;
+      };
+  seoSettings?:
+    | T
+    | {
+        structuredData?: T;
+      };
+  accessibilitySettings?:
+    | T
+    | {
+        ariaLabelsEnabled?: T;
+        focusVisibleColor?: T;
+        skipLinksEnabled?: T;
+      };
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  url?: T;
+  description?: T;
+  category?: T;
+  keywords?:
+    | T
+    | {
+        keyword?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

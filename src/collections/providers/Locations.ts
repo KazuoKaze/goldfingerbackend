@@ -428,6 +428,11 @@ export const Locations: CollectionConfig = {
       label: 'Location Name',
     },
     {
+      name: 'googleMaps',
+      type: 'text',
+      label: 'Google Maps link',
+    },
+    {
       name: 'image',
       type: 'upload',
       relationTo: 'media',
@@ -576,6 +581,5 @@ export const Locations: CollectionConfig = {
       label: 'Featured Location',
       defaultValue: false,
     },
-    
   ],
 }

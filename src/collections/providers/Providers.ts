@@ -477,6 +477,11 @@ export const Providers: CollectionConfig = {
       label: 'Provider Name',
     },
     {
+      name: 'googleMaps',
+      type: 'text',
+      label: 'Google Maps link',
+    },
+    {
       name: 'title',
       type: 'text',
       required: true,

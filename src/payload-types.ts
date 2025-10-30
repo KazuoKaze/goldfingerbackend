@@ -369,7 +369,7 @@ export interface Media {
   id: string;
   alt?: string | null;
   /**
-   * Cloudinary URL - use this in your frontend
+   * Cloudinary URL
    */
   cloudinary_url?: string | null;
   public_id?: string | null;
@@ -377,7 +377,7 @@ export interface Media {
   createdAt: string;
   url?: string | null;
   thumbnailURL?: string | null;
-  filename?: string | null;
+  filename: string;
   mimeType?: string | null;
   filesize?: number | null;
   width?: number | null;

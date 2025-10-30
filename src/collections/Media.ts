@@ -335,103 +335,121 @@
 import { CollectionConfig } from "payload";
 import { v2 as cloudinary } from "cloudinary";
 
-// Cloudinary configuration
+// Configure Cloudinary
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
-  api_key: process.env.CLOUDINARY_API_KEY!,
-  api_secret: process.env.CLOUDINARY_API_SECRET!,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 export const Media: CollectionConfig = {
-  slug: "media",
+  slug: 'media',
   access: {
     read: () => true,
   },
-  upload: true,
+  upload: {
+    disableLocalStorage: true,
+    mimeTypes: ['image/*'],
+  },
   fields: [
     {
-      name: "alt",
-      type: "text",
-      label: "Alt Text",
+      name: 'alt',
+      type: 'text',
+      label: 'Alt Text',
     },
     {
-      name: "cloudinary_url",
-      type: "text",
+      name: 'cloudinary_url',
+      type: 'text',
+      required: false,
       admin: {
         readOnly: true,
-        description: "Cloudinary URL - use this in your frontend",
+        description: 'Cloudinary URL',
       },
     },
     {
-      name: "public_id",
-      type: "text",
+      name: 'public_id',
+      type: 'text',
+      required: false,
       admin: {
         readOnly: true,
       },
     },
   ],
   hooks: {
-    /**
-     * Upload file to Cloudinary before validation
-     */
-    beforeValidate: [
+    beforeChange: [
       async ({ data, req, operation }) => {
-        if (operation === "create" && req.file) {
-          const file = req.file;
-
-          // Fallbacks for safe filename handling
-          data.filename = file.name || `upload-${Date.now()}`;
-          data.mimeType = file.mimetype || "application/octet-stream";
-          data.filesize = file.size || 0;
-
-          // Get buffer safely (works on Vercel and locally)
-          const buffer = file.buffer || file.data;
-          if (!buffer) {
-            throw new Error("Missing file buffer — cannot upload to Cloudinary");
-          }
-
-          console.log("Uploading to Cloudinary:", data.filename);
-
-          try {
-            // Upload using Cloudinary upload_stream
-            const result: any = await new Promise((resolve, reject) => {
-              const uploadStream = cloudinary.uploader.upload_stream(
-                {
-                  folder: "payload-media",
-                  resource_type: "auto",
-                },
-                (error, result) => {
-                  if (error) reject(error);
-                  else resolve(result);
-                }
-              );
-
-              uploadStream.end(buffer);
-            });
-
-            console.log("✅ Upload successful:", result.secure_url);
-
-            // Set Cloudinary fields
-            data.cloudinary_url = result.secure_url;
-            data.public_id = result.public_id;
-            data.url = result.secure_url;
-
-            // Store width/height if available
-            if (result.width) data.width = result.width;
-            if (result.height) data.height = result.height;
-          } catch (error: any) {
-            console.error("❌ Cloudinary upload error:", error);
-            throw new Error("Failed to upload image to Cloudinary");
-          }
+        // Only run on create operations with files
+        if (operation !== 'create' || !req.file) {
+          return data;
         }
 
-        return data;
+        try {
+          console.log('=== CLOUDINARY UPLOAD START ===');
+          console.log('File name:', req.file.name);
+          console.log('File size:', req.file.size);
+          console.log('File type:', req.file.mimetype);
+          console.log('Has file data:', !!req.file.data);
+          console.log('Cloudinary config:', {
+            cloud_name: !!process.env.CLOUDINARY_CLOUD_NAME,
+            api_key: !!process.env.CLOUDINARY_API_KEY,
+            api_secret: !!process.env.CLOUDINARY_API_SECRET,
+          });
+
+          // Validate file data exists
+          if (!req.file.data) {
+            throw new Error('No file data found');
+          }
+
+          // Convert to base64
+          const b64 = Buffer.from(req.file.data).toString('base64');
+          const dataURI = `data:${req.file.mimetype};base64,${b64}`;
+
+          console.log('Uploading to Cloudinary...');
+
+          // Upload to Cloudinary with timeout
+          const uploadPromise = cloudinary.uploader.upload(dataURI, {
+            folder: 'payload-media',
+            resource_type: 'auto',
+            timeout: 60000,
+          });
+
+          const result = await Promise.race([
+            uploadPromise,
+            new Promise((_, reject) => 
+              setTimeout(() => reject(new Error('Upload timeout')), 30000)
+            )
+          ]);
+
+          console.log('Upload successful!');
+          console.log('URL:', result.secure_url);
+          console.log('Public ID:', result.public_id);
+
+          // Set all required fields
+          data.filename = req.file.name;
+          data.mimeType = req.file.mimetype;
+          data.filesize = req.file.size;
+          data.cloudinary_url = result.secure_url;
+          data.public_id = result.public_id;
+          data.url = result.secure_url;
+
+          if (result.width) data.width = result.width;
+          if (result.height) data.height = result.height;
+
+          console.log('=== CLOUDINARY UPLOAD END ===');
+          
+          return data;
+
+        } catch (error) {
+          console.error('=== CLOUDINARY UPLOAD ERROR ===');
+          console.error('Error:', error);
+          console.error('Error message:', error.message);
+          console.error('Error stack:', error.stack);
+          
+          // Return a more helpful error
+          throw new Error(`Cloudinary upload failed: ${error.message}`);
+        }
       },
     ],
-
-    /**
-     * Ensure frontend always uses Cloudinary URL
-     */
     afterRead: [
       async ({ doc }) => {
         if (doc.cloudinary_url) {
@@ -440,21 +458,17 @@ export const Media: CollectionConfig = {
         return doc;
       },
     ],
-
-    /**
-     * Delete file from Cloudinary when removed in Payload
-     */
     afterDelete: [
       async ({ doc }) => {
         if (doc.public_id) {
           try {
             await cloudinary.uploader.destroy(doc.public_id);
-            console.log("🗑️ Deleted from Cloudinary:", doc.public_id);
+            console.log('Deleted from Cloudinary:', doc.public_id);
           } catch (error) {
-            console.error("Cloudinary delete error:", error);
+            console.error('Delete error:', error);
           }
         }
       },
     ],
   },
-};
+}

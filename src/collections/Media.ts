@@ -1,10 +1,120 @@
 
 
 
+// // // // collections/Media.ts
+// // // import { CollectionConfig } from "payload";
+// // // import { v2 as cloudinary } from "cloudinary";
+// // // import { Readable } from "stream";
+
+// // // cloudinary.config({
+// // //   cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
+// // //   api_key: process.env.CLOUDINARY_API_KEY!,
+// // //   api_secret: process.env.CLOUDINARY_API_SECRET!,
+// // // });
+
+// // // export const Media: CollectionConfig = {
+// // //   slug: 'media',
+// // //   access: {
+// // //     read: () => true, // Allow public read access
+// // //   },
+// // //   upload: true,
+// // //   admin: {
+// // //     useAsTitle: 'original_filename',
+// // //   },
+// // //   fields: [
+// // //     {
+// // //       name: 'cloudinary_url',
+// // //       type: 'text',
+// // //       admin: {
+// // //         readOnly: true,
+// // //         description: 'Cloudinary URL',
+// // //       },
+// // //     },
+// // //     {
+// // //       name: 'public_id',
+// // //       type: 'text',
+// // //       admin: {
+// // //         readOnly: true,
+// // //       },
+// // //     },
+// // //     {
+// // //       name: 'resource_type',
+// // //       type: 'text',
+// // //       admin: {
+// // //         readOnly: true,
+// // //       },
+// // //     },
+// // //     {
+// // //       name: 'original_filename',
+// // //       type: 'text',
+// // //       admin: {
+// // //         readOnly: true,
+// // //       },
+// // //     },
+// // //   ],
+// // //   hooks: {
+// // //     beforeChange: [
+// // //       async ({ data, req }) => {
+// // //         const file = req.file
+
+// // //         if (file && file.data && !data.cloudinary_url) {
+// // //           try {
+// // //             console.log('Uploading to Cloudinary...')
+
+// // //             // Upload buffer to Cloudinary using upload_stream
+// // //             const uploadResult = await new Promise<any>((resolve, reject) => {
+// // //               const uploadStream = cloudinary.uploader.upload_stream(
+// // //                 {
+// // //                   folder: 'payload-media',
+// // //                   resource_type: 'auto',
+// // //                   public_id: data.filename?.replace(/\.[^/.]+$/, ''), // Remove extension
+// // //                 },
+// // //                 (error, result) => {
+// // //                   if (error) reject(error)
+// // //                   else resolve(result)
+// // //                 },
+// // //               )
+
+// // //               // Convert buffer to stream and pipe to Cloudinary
+// // //               const bufferStream = Readable.from(file.data)
+// // //               bufferStream.pipe(uploadStream)
+// // //             })
+
+// // //             // Set Cloudinary data
+// // //             data.cloudinary_url = uploadResult.secure_url
+// // //             data.public_id = uploadResult.public_id
+// // //             data.resource_type = uploadResult.resource_type
+// // //             data.original_filename = file.name
+
+// // //             console.log('Successfully uploaded to Cloudinary:', uploadResult.secure_url)
+// // //           } catch (err) {
+// // //             console.error('Cloudinary upload error:', err)
+// // //           }
+// // //         }
+
+// // //         return data
+// // //       },
+// // //     ],
+// // //     afterDelete: [
+// // //       async ({ doc }) => {
+// // //         // Clean up from Cloudinary when deleted
+// // //         if (doc.public_id) {
+// // //           try {
+// // //             await cloudinary.uploader.destroy(doc.public_id)
+// // //             console.log('Deleted from Cloudinary:', doc.public_id)
+// // //           } catch (err) {
+// // //             console.error('Cloudinary deletion error:', err)
+// // //           }
+// // //         }
+// // //       },
+// // //     ],
+// // //   },
+// // // }
+
+
 // // // collections/Media.ts
 // // import { CollectionConfig } from "payload";
 // // import { v2 as cloudinary } from "cloudinary";
-// // import { Readable } from "stream";
 
 // // cloudinary.config({
 // //   cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
@@ -15,19 +125,25 @@
 // // export const Media: CollectionConfig = {
 // //   slug: 'media',
 // //   access: {
-// //     read: () => true, // Allow public read access
+// //     read: () => true,
 // //   },
-// //   upload: true,
-// //   admin: {
-// //     useAsTitle: 'original_filename',
+// //   upload: {
+// //     staticDir: '/tmp',
+// //     mimeTypes: ['image/*', 'video/*', 'application/pdf'],
+// //     disableLocalStorage: true, // Don't store files locally
 // //   },
 // //   fields: [
+// //     {
+// //       name: 'alt',
+// //       type: 'text',
+// //       label: 'Alt Text',
+// //     },
 // //     {
 // //       name: 'cloudinary_url',
 // //       type: 'text',
 // //       admin: {
 // //         readOnly: true,
-// //         description: 'Cloudinary URL',
+// //         description: 'Cloudinary URL - use this in your frontend',
 // //       },
 // //     },
 // //     {
@@ -37,73 +153,70 @@
 // //         readOnly: true,
 // //       },
 // //     },
-// //     {
-// //       name: 'resource_type',
-// //       type: 'text',
-// //       admin: {
-// //         readOnly: true,
-// //       },
-// //     },
-// //     {
-// //       name: 'original_filename',
-// //       type: 'text',
-// //       admin: {
-// //         readOnly: true,
-// //       },
-// //     },
 // //   ],
 // //   hooks: {
 // //     beforeChange: [
 // //       async ({ data, req }) => {
-// //         const file = req.file
-
-// //         if (file && file.data && !data.cloudinary_url) {
+// //         if (req.file && !data.cloudinary_url) {
 // //           try {
-// //             console.log('Uploading to Cloudinary...')
+// //             console.log('Starting Cloudinary upload...');
+// //             console.log('File info:', {
+// //               name: req.file.name,
+// //               size: req.file.size,
+// //               mimetype: req.file.mimetype
+// //             });
 
-// //             // Upload buffer to Cloudinary using upload_stream
-// //             const uploadResult = await new Promise<any>((resolve, reject) => {
-// //               const uploadStream = cloudinary.uploader.upload_stream(
-// //                 {
-// //                   folder: 'payload-media',
-// //                   resource_type: 'auto',
-// //                   public_id: data.filename?.replace(/\.[^/.]+$/, ''), // Remove extension
-// //                 },
-// //                 (error, result) => {
-// //                   if (error) reject(error)
-// //                   else resolve(result)
-// //                 },
-// //               )
+// //             // Convert buffer to base64 data URI
+// //             const b64 = Buffer.from(req.file.data).toString('base64');
+// //             const dataURI = `data:${req.file.mimetype};base64,${b64}`;
 
-// //               // Convert buffer to stream and pipe to Cloudinary
-// //               const bufferStream = Readable.from(file.data)
-// //               bufferStream.pipe(uploadStream)
-// //             })
+// //             // Upload to Cloudinary
+// //             const uploadResult = await cloudinary.uploader.upload(dataURI, {
+// //               folder: 'payload-media',
+// //               resource_type: 'auto',
+// //             });
 
-// //             // Set Cloudinary data
-// //             data.cloudinary_url = uploadResult.secure_url
-// //             data.public_id = uploadResult.public_id
-// //             data.resource_type = uploadResult.resource_type
-// //             data.original_filename = file.name
+// //             console.log('Cloudinary upload successful:', uploadResult.secure_url);
 
-// //             console.log('Successfully uploaded to Cloudinary:', uploadResult.secure_url)
+// //             // Update data with Cloudinary info
+// //             data.cloudinary_url = uploadResult.secure_url;
+// //             data.public_id = uploadResult.public_id;
+            
+// //             // These are required by Payload
+// //             data.url = uploadResult.secure_url;
+// //             data.thumbnailURL = uploadResult.secure_url;
+// //             data.filename = req.file.name;
+// //             data.mimeType = req.file.mimetype;
+// //             data.filesize = req.file.size;
+// //             data.width = uploadResult.width;
+// //             data.height = uploadResult.height;
+
 // //           } catch (err) {
-// //             console.error('Cloudinary upload error:', err)
+// //             console.error('Cloudinary upload failed:', err);
+// //             throw new Error(`Failed to upload to Cloudinary: ${err.message}`);
 // //           }
 // //         }
-
-// //         return data
+// //         return data;
+// //       },
+// //     ],
+// //     afterRead: [
+// //       async ({ doc }) => {
+// //         // Serve images from Cloudinary instead of local storage
+// //         if (doc.cloudinary_url) {
+// //           doc.url = doc.cloudinary_url;
+// //           doc.thumbnailURL = doc.cloudinary_url;
+// //         }
+// //         return doc;
 // //       },
 // //     ],
 // //     afterDelete: [
 // //       async ({ doc }) => {
-// //         // Clean up from Cloudinary when deleted
 // //         if (doc.public_id) {
 // //           try {
-// //             await cloudinary.uploader.destroy(doc.public_id)
-// //             console.log('Deleted from Cloudinary:', doc.public_id)
+// //             await cloudinary.uploader.destroy(doc.public_id);
+// //             console.log('Deleted from Cloudinary:', doc.public_id);
 // //           } catch (err) {
-// //             console.error('Cloudinary deletion error:', err)
+// //             console.error('Cloudinary deletion error:', err);
 // //           }
 // //         }
 // //       },
@@ -127,11 +240,7 @@
 //   access: {
 //     read: () => true,
 //   },
-//   upload: {
-//     staticDir: '/tmp',
-//     mimeTypes: ['image/*', 'video/*', 'application/pdf'],
-//     disableLocalStorage: true, // Don't store files locally
-//   },
+//   upload: true,
 //   fields: [
 //     {
 //       name: 'alt',
@@ -155,45 +264,41 @@
 //     },
 //   ],
 //   hooks: {
-//     beforeChange: [
-//       async ({ data, req }) => {
-//         if (req.file && !data.cloudinary_url) {
+//     beforeValidate: [
+//       async ({ data, req, operation }) => {
+//         if (operation === 'create' && req.file) {
+//           // Set required fields before validation
+//           data.filename = req.file.name;
+//           data.mimeType = req.file.mimetype;
+//           data.filesize = req.file.size;
+          
 //           try {
-//             console.log('Starting Cloudinary upload...');
-//             console.log('File info:', {
-//               name: req.file.name,
-//               size: req.file.size,
-//               mimetype: req.file.mimetype
-//             });
-
-//             // Convert buffer to base64 data URI
+//             console.log('Uploading to Cloudinary:', req.file.name);
+            
+//             // Convert buffer to base64
 //             const b64 = Buffer.from(req.file.data).toString('base64');
 //             const dataURI = `data:${req.file.mimetype};base64,${b64}`;
 
 //             // Upload to Cloudinary
-//             const uploadResult = await cloudinary.uploader.upload(dataURI, {
+//             const result = await cloudinary.uploader.upload(dataURI, {
 //               folder: 'payload-media',
 //               resource_type: 'auto',
 //             });
 
-//             console.log('Cloudinary upload successful:', uploadResult.secure_url);
+//             console.log('Upload successful:', result.secure_url);
 
-//             // Update data with Cloudinary info
-//             data.cloudinary_url = uploadResult.secure_url;
-//             data.public_id = uploadResult.public_id;
+//             // Set Cloudinary fields
+//             data.cloudinary_url = result.secure_url;
+//             data.public_id = result.public_id;
+//             data.url = result.secure_url;
             
-//             // These are required by Payload
-//             data.url = uploadResult.secure_url;
-//             data.thumbnailURL = uploadResult.secure_url;
-//             data.filename = req.file.name;
-//             data.mimeType = req.file.mimetype;
-//             data.filesize = req.file.size;
-//             data.width = uploadResult.width;
-//             data.height = uploadResult.height;
+//             // Set dimensions if image
+//             if (result.width) data.width = result.width;
+//             if (result.height) data.height = result.height;
 
-//           } catch (err) {
-//             console.error('Cloudinary upload failed:', err);
-//             throw new Error(`Failed to upload to Cloudinary: ${err.message}`);
+//           } catch (error) {
+//             console.error('Cloudinary upload error:', error);
+//             throw new Error('Failed to upload image to Cloudinary');
 //           }
 //         }
 //         return data;
@@ -201,22 +306,22 @@
 //     ],
 //     afterRead: [
 //       async ({ doc }) => {
-//         // Serve images from Cloudinary instead of local storage
+//         // Always serve from Cloudinary
 //         if (doc.cloudinary_url) {
 //           doc.url = doc.cloudinary_url;
-//           doc.thumbnailURL = doc.cloudinary_url;
 //         }
 //         return doc;
 //       },
 //     ],
 //     afterDelete: [
 //       async ({ doc }) => {
+//         // Delete from Cloudinary
 //         if (doc.public_id) {
 //           try {
 //             await cloudinary.uploader.destroy(doc.public_id);
 //             console.log('Deleted from Cloudinary:', doc.public_id);
-//           } catch (err) {
-//             console.error('Cloudinary deletion error:', err);
+//           } catch (error) {
+//             console.error('Cloudinary delete error:', error);
 //           }
 //         }
 //       },
@@ -225,10 +330,12 @@
 // }
 
 
+
 // collections/Media.ts
 import { CollectionConfig } from "payload";
 import { v2 as cloudinary } from "cloudinary";
 
+// Cloudinary configuration
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
   api_key: process.env.CLOUDINARY_API_KEY!,
@@ -236,95 +343,118 @@ cloudinary.config({
 });
 
 export const Media: CollectionConfig = {
-  slug: 'media',
+  slug: "media",
   access: {
     read: () => true,
   },
   upload: true,
   fields: [
     {
-      name: 'alt',
-      type: 'text',
-      label: 'Alt Text',
+      name: "alt",
+      type: "text",
+      label: "Alt Text",
     },
     {
-      name: 'cloudinary_url',
-      type: 'text',
+      name: "cloudinary_url",
+      type: "text",
       admin: {
         readOnly: true,
-        description: 'Cloudinary URL - use this in your frontend',
+        description: "Cloudinary URL - use this in your frontend",
       },
     },
     {
-      name: 'public_id',
-      type: 'text',
+      name: "public_id",
+      type: "text",
       admin: {
         readOnly: true,
       },
     },
   ],
   hooks: {
+    /**
+     * Upload file to Cloudinary before validation
+     */
     beforeValidate: [
       async ({ data, req, operation }) => {
-        if (operation === 'create' && req.file) {
-          // Set required fields before validation
-          data.filename = req.file.name;
-          data.mimeType = req.file.mimetype;
-          data.filesize = req.file.size;
-          
-          try {
-            console.log('Uploading to Cloudinary:', req.file.name);
-            
-            // Convert buffer to base64
-            const b64 = Buffer.from(req.file.data).toString('base64');
-            const dataURI = `data:${req.file.mimetype};base64,${b64}`;
+        if (operation === "create" && req.file) {
+          const file = req.file;
 
-            // Upload to Cloudinary
-            const result = await cloudinary.uploader.upload(dataURI, {
-              folder: 'payload-media',
-              resource_type: 'auto',
+          // Fallbacks for safe filename handling
+          data.filename = file.name || `upload-${Date.now()}`;
+          data.mimeType = file.mimetype || "application/octet-stream";
+          data.filesize = file.size || 0;
+
+          // Get buffer safely (works on Vercel and locally)
+          const buffer = file.buffer || file.data;
+          if (!buffer) {
+            throw new Error("Missing file buffer — cannot upload to Cloudinary");
+          }
+
+          console.log("Uploading to Cloudinary:", data.filename);
+
+          try {
+            // Upload using Cloudinary upload_stream
+            const result: any = await new Promise((resolve, reject) => {
+              const uploadStream = cloudinary.uploader.upload_stream(
+                {
+                  folder: "payload-media",
+                  resource_type: "auto",
+                },
+                (error, result) => {
+                  if (error) reject(error);
+                  else resolve(result);
+                }
+              );
+
+              uploadStream.end(buffer);
             });
 
-            console.log('Upload successful:', result.secure_url);
+            console.log("✅ Upload successful:", result.secure_url);
 
             // Set Cloudinary fields
             data.cloudinary_url = result.secure_url;
             data.public_id = result.public_id;
             data.url = result.secure_url;
-            
-            // Set dimensions if image
+
+            // Store width/height if available
             if (result.width) data.width = result.width;
             if (result.height) data.height = result.height;
-
-          } catch (error) {
-            console.error('Cloudinary upload error:', error);
-            throw new Error('Failed to upload image to Cloudinary');
+          } catch (error: any) {
+            console.error("❌ Cloudinary upload error:", error);
+            throw new Error("Failed to upload image to Cloudinary");
           }
         }
+
         return data;
       },
     ],
+
+    /**
+     * Ensure frontend always uses Cloudinary URL
+     */
     afterRead: [
       async ({ doc }) => {
-        // Always serve from Cloudinary
         if (doc.cloudinary_url) {
           doc.url = doc.cloudinary_url;
         }
         return doc;
       },
     ],
+
+    /**
+     * Delete file from Cloudinary when removed in Payload
+     */
     afterDelete: [
       async ({ doc }) => {
-        // Delete from Cloudinary
         if (doc.public_id) {
           try {
             await cloudinary.uploader.destroy(doc.public_id);
-            console.log('Deleted from Cloudinary:', doc.public_id);
+            console.log("🗑️ Deleted from Cloudinary:", doc.public_id);
           } catch (error) {
-            console.error('Cloudinary delete error:', error);
+            console.error("Cloudinary delete error:", error);
           }
         }
       },
     ],
   },
-}
+};

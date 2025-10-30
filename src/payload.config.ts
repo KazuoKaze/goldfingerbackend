@@ -296,4 +296,5 @@ export default buildConfig({
       handler: searchHandler,
     },
   ],
+  
 })

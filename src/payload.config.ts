@@ -128,6 +128,9 @@ import { EnrolmentComponent } from './collections/traning/EnrolmentComponent'
 import { FooterComponent } from './collections/FooterComponent'
 import { Pages } from './collections/Pages'
 import { searchHandler } from './endpoints/search'
+import { TermsAndConditionsPageComponent } from './collections/TermsAndConditionsComponent'
+import { PrivacyPolicyPageComponent } from './collections/PrivacyPolicyPageComponent'
+import { SitemapPageComponent } from './collections/SitemapPageComponent'
 
 // import { lexicalEditor } from '@payloadcms/richtext-lexical'
 
@@ -273,6 +276,9 @@ export default buildConfig({
     FooterComponent,
 
     Pages,
+    TermsAndConditionsPageComponent,
+    PrivacyPolicyPageComponent,
+    SitemapPageComponent,
   ],
   globals: [Navbar, Home, ProviderLocatorComponent],
   editor: lexicalEditor(),
@@ -296,5 +302,4 @@ export default buildConfig({
       handler: searchHandler,
     },
   ],
-  
 })

@@ -177,6 +177,9 @@ export interface Config {
     'special-contact-form-submissions': SpecialContactFormSubmission;
     footerComponent: FooterComponent;
     pages: Page;
+    'terms-and-conditions-page-component': TermsAndConditionsPageComponent;
+    'privacy-policy-page-component': PrivacyPolicyPageComponent;
+    'sitemap-page-component': SitemapPageComponent;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -293,6 +296,9 @@ export interface Config {
     'special-contact-form-submissions': SpecialContactFormSubmissionsSelect<false> | SpecialContactFormSubmissionsSelect<true>;
     footerComponent: FooterComponentSelect<false> | FooterComponentSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
+    'terms-and-conditions-page-component': TermsAndConditionsPageComponentSelect<false> | TermsAndConditionsPageComponentSelect<true>;
+    'privacy-policy-page-component': PrivacyPolicyPageComponentSelect<false> | PrivacyPolicyPageComponentSelect<true>;
+    'sitemap-page-component': SitemapPageComponentSelect<false> | SitemapPageComponentSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -384,24 +390,6 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
-  sizes?: {
-    thumbnail?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    card?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -38420,6 +38408,1156 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "terms-and-conditions-page-component".
+ */
+export interface TermsAndConditionsPageComponent {
+  id: string;
+  componentName: string;
+  heroSection: {
+    show?: boolean | null;
+    /**
+     * e.g., banner, mobile-stack
+     */
+    className?: string | null;
+    /**
+     * CSS color value (e.g., #ffffff, rgba(0,0,0,0.5))
+     */
+    backgroundColor?: string | null;
+    backgroundImage?: {
+      mobile?: (string | null) | Media;
+      tablet?: (string | null) | Media;
+      desktop?: (string | null) | Media;
+      large?: (string | null) | Media;
+      alt?: string | null;
+    };
+    /**
+     * Drag to reorder breadcrumb items
+     */
+    breadcrumbs?:
+      | {
+          label: string;
+          url: string;
+          ariaLabel?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    title: string;
+    /**
+     * CSS color value
+     */
+    titleColor?: string | null;
+    /**
+     * CSS font-size value (e.g., 48px, 3rem)
+     */
+    titleFontSize?: string | null;
+    mediaImage: {
+      mobile?: (string | null) | Media;
+      tablet?: (string | null) | Media;
+      desktop?: (string | null) | Media;
+      large?: (string | null) | Media;
+      alt: string;
+    };
+  };
+  termsContentSection: {
+    show?: boolean | null;
+    /**
+     * e.g., container, viewport
+     */
+    className?: string | null;
+    /**
+     * CSS color value
+     */
+    backgroundColor?: string | null;
+    /**
+     * CSS color value
+     */
+    textColor?: string | null;
+    /**
+     * CSS padding value (e.g., 60px, 4rem)
+     */
+    paddingTop?: string | null;
+    /**
+     * CSS padding value (e.g., 60px, 4rem)
+     */
+    paddingBottom?: string | null;
+    mainHeading: string;
+    /**
+     * CSS color value
+     */
+    mainHeadingColor?: string | null;
+    /**
+     * CSS font-size value
+     */
+    mainHeadingFontSize?: string | null;
+    /**
+     * Drag to reorder introduction paragraphs
+     */
+    introductionParagraphs?:
+      | {
+          content: string;
+          /**
+           * Override global text color for this paragraph
+           */
+          textColor?: string | null;
+          /**
+           * CSS font-size value
+           */
+          fontSize?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Your website URL to be displayed in content
+     */
+    websiteUrl?: string | null;
+    /**
+     * How the website URL appears in text
+     */
+    websiteDisplayText?: string | null;
+    /**
+     * Color for links in content
+     */
+    linkColor?: string | null;
+    /**
+     * Color for links on hover
+     */
+    linkHoverColor?: string | null;
+    /**
+     * Drag to reorder terms sections
+     */
+    termsBlocks?:
+      | {
+          heading: string;
+          /**
+           * CSS color value
+           */
+          headingColor?: string | null;
+          /**
+           * CSS font-size value
+           */
+          headingFontSize?: string | null;
+          contentType?: ('paragraphs' | 'orderedList' | 'unorderedList' | 'mixed') | null;
+          /**
+           * Add multiple paragraphs for this section
+           */
+          paragraphs?:
+            | {
+                text: string;
+                textColor?: string | null;
+                id?: string | null;
+              }[]
+            | null;
+          /**
+           * Drag to reorder list items
+           */
+          listItems?:
+            | {
+                text: string;
+                textColor?: string | null;
+                id?: string | null;
+              }[]
+            | null;
+          /**
+           * CSS list-style-type (e.g., decimal, disc, circle)
+           */
+          listStyleType?: string | null;
+          /**
+           * CSS margin value for list indentation
+           */
+          listMarginLeft?: string | null;
+          /**
+           * Override background for this section
+           */
+          backgroundColor?: string | null;
+          paddingTop?: string | null;
+          paddingBottom?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Drag to reorder sections on the page
+   */
+  sectionOrder?:
+    | {
+        section: 'hero' | 'termsContent';
+        id?: string | null;
+      }[]
+    | null;
+  globalStyles?: {
+    /**
+     * CSS max-width value (e.g., 1200px, 100%)
+     */
+    containerMaxWidth?: string | null;
+    /**
+     * CSS padding value (e.g., 20px, 1rem 2rem)
+     */
+    containerPadding?: string | null;
+    /**
+     * Spacing between sections (e.g., 60px, 4rem)
+     */
+    sectionSpacing?: string | null;
+    /**
+     * CSS font-family value
+     */
+    fontFamily?: string | null;
+    /**
+     * Primary brand color
+     */
+    primaryColor?: string | null;
+    /**
+     * Secondary brand color
+     */
+    secondaryColor?: string | null;
+    /**
+     * Default text color for the page
+     */
+    textColor?: string | null;
+    /**
+     * Default color for links
+     */
+    linkColor?: string | null;
+    /**
+     * Color for links on hover
+     */
+    linkHoverColor?: string | null;
+  };
+  typographySettings?: {
+    h1FontSize?: string | null;
+    h1Color?: string | null;
+    h1FontWeight?: string | null;
+    h2FontSize?: string | null;
+    h2Color?: string | null;
+    h2FontWeight?: string | null;
+    h3FontSize?: string | null;
+    h3Color?: string | null;
+    h3FontWeight?: string | null;
+    bodyFontSize?: string | null;
+    bodyLineHeight?: string | null;
+    /**
+     * Margin between paragraphs
+     */
+    paragraphSpacing?: string | null;
+    /**
+     * CSS list-style-type (e.g., disc, circle, square, none)
+     */
+    listStyleType?: string | null;
+    listMarginLeft?: string | null;
+    /**
+     * CSS list-style-type for numbered lists (e.g., decimal, lower-alpha)
+     */
+    orderedListStyleType?: string | null;
+  };
+  layoutSettings?: {
+    /**
+     * Maximum width for content area
+     */
+    contentMaxWidth?: string | null;
+    /**
+     * Internal padding for content
+     */
+    contentPadding?: string | null;
+    /**
+     * Gap between rows (e.g., 20px, 1.5rem)
+     */
+    rowGap?: string | null;
+    imageObjectFit?: ('cover' | 'contain' | 'fill' | 'none') | null;
+  };
+  animationSettings?: {
+    enableAnimations?: boolean | null;
+    /**
+     * Duration for fade in animations (e.g., 1s, 2s)
+     */
+    fadeInDuration?: string | null;
+    /**
+     * Delay before fade in starts (e.g., 0.2s)
+     */
+    fadeInDelay?: string | null;
+    /**
+     * CSS easing function
+     */
+    animationEasing?: string | null;
+    /**
+     * Enable scroll-triggered animations
+     */
+    enableScrollAnimations?: boolean | null;
+    /**
+     * Distance from viewport to trigger animation (px)
+     */
+    scrollAnimationOffset?: string | null;
+  };
+  seoSettings?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+    ogImage?: (string | null) | Media;
+    /**
+     * Comma-separated keywords for SEO
+     */
+    keywords?: string | null;
+    canonicalUrl?: string | null;
+    robots?: ('index,follow' | 'noindex,follow' | 'index,nofollow' | 'noindex,nofollow') | null;
+    /**
+     * Add schema.org structured data in JSON-LD format
+     */
+    structuredData?: string | null;
+  };
+  accessibilitySettings?: {
+    skipToContent?: boolean | null;
+    ariaLabelsEnabled?: boolean | null;
+    altTextRequired?: boolean | null;
+    /**
+     * Color for focus outlines (accessibility)
+     */
+    focusVisibleColor?: string | null;
+    contrastMode?: ('normal' | 'high' | 'very-high') | null;
+    keyboardNavigationEnabled?: boolean | null;
+    /**
+     * Add visual indicators for external links
+     */
+    linkIndicators?: boolean | null;
+  };
+  mobileSettings?: {
+    /**
+     * Screen width for mobile (e.g., 768px)
+     */
+    mobileBreakpoint?: string | null;
+    /**
+     * Screen width for tablet (e.g., 1024px)
+     */
+    tabletBreakpoint?: string | null;
+    /**
+     * Percentage adjustment for mobile fonts (e.g., 90%)
+     */
+    mobileFontSizeAdjustment?: string | null;
+    /**
+     * Percentage adjustment for mobile spacing
+     */
+    mobileSpacingAdjustment?: string | null;
+    /**
+     * Automatically stack sections vertically on mobile devices
+     */
+    mobileStackSections?: boolean | null;
+    /**
+     * Max height for images on mobile (e.g., 300px)
+     */
+    mobileImageHeight?: string | null;
+    /**
+     * Comma-separated list of element classes to hide on mobile
+     */
+    mobileHideElements?: string | null;
+  };
+  advancedSettings?: {
+    /**
+     * Add custom CSS styles for this page
+     */
+    customCSS?: string | null;
+    /**
+     * Add custom JavaScript code for this page
+     */
+    customJS?: string | null;
+    /**
+     * Add custom data attributes to page elements
+     */
+    dataAttributes?:
+      | {
+          /**
+           * e.g., data-tracking-id
+           */
+          attribute?: string | null;
+          value?: string | null;
+          targetSection?: ('hero' | 'termsContent') | null;
+          id?: string | null;
+        }[]
+      | null;
+    lazyLoadImages?: boolean | null;
+    enableCaching?: boolean | null;
+    /**
+     * Preload above-the-fold images for better performance
+     */
+    preloadImages?: boolean | null;
+  };
+  integrationSettings?: {
+    /**
+     * GA tracking ID for this page
+     */
+    googleAnalyticsId?: string | null;
+    facebookPixelId?: string | null;
+    enableTracking?: boolean | null;
+    conversionTrackingEnabled?: boolean | null;
+  };
+  performanceSettings?: {
+    imageOptimization?: boolean | null;
+    /**
+     * Compression quality (1-100)
+     */
+    imageQuality?: string | null;
+    imageFormat?: ('auto' | 'webp' | 'avif' | 'jpeg' | 'png') | null;
+    /**
+     * Comma-separated widths for responsive images (e.g., 420,800,1400)
+     */
+    responsiveImageSizes?: string | null;
+    minifyCSS?: boolean | null;
+    minifyJS?: boolean | null;
+    preloadCriticalAssets?: boolean | null;
+    enableCDN?: boolean | null;
+    /**
+     * Base URL for CDN (e.g., https://cdn.example.com)
+     */
+    cdnUrl?: string | null;
+  };
+  legalContentSettings?: {
+    companyName?: string | null;
+    /**
+     * Date when terms were last updated
+     */
+    lastUpdatedDate?: string | null;
+    /**
+     * State or location for governing law
+     */
+    governingState?: string | null;
+    displayUpdateDate?: boolean | null;
+    /**
+     * Optional additional disclaimer text
+     */
+    legalDisclaimer?: string | null;
+  };
+  contentDisplaySettings?: {
+    /**
+     * Display a table of contents for easy navigation
+     */
+    showTableOfContents?: boolean | null;
+    tableOfContentsPosition?: ('top' | 'sidebar-left' | 'sidebar-right') | null;
+    enablePrintButton?: boolean | null;
+    enableDownloadPDF?: boolean | null;
+    showLastModified?: boolean | null;
+    /**
+     * Smooth scroll to sections when clicking TOC
+     */
+    enableSmoothScroll?: boolean | null;
+  };
+  /**
+   * Toggle to enable/disable this component
+   */
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "privacy-policy-page-component".
+ */
+export interface PrivacyPolicyPageComponent {
+  id: string;
+  componentName: string;
+  heroSection: {
+    show?: boolean | null;
+    /**
+     * e.g., banner, mobile-stack
+     */
+    className?: string | null;
+    /**
+     * CSS color value (e.g., #ffffff, rgba(0,0,0,0.5))
+     */
+    backgroundColor?: string | null;
+    backgroundImage?: {
+      mobile?: (string | null) | Media;
+      tablet?: (string | null) | Media;
+      desktop?: (string | null) | Media;
+      large?: (string | null) | Media;
+      alt?: string | null;
+    };
+    /**
+     * Drag to reorder breadcrumb items
+     */
+    breadcrumbs?:
+      | {
+          label: string;
+          url: string;
+          ariaLabel?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    title: string;
+    /**
+     * CSS color value
+     */
+    titleColor?: string | null;
+    /**
+     * CSS font-size value (e.g., 48px, 3rem)
+     */
+    titleFontSize?: string | null;
+    mediaImage: {
+      mobile?: (string | null) | Media;
+      tablet?: (string | null) | Media;
+      desktop?: (string | null) | Media;
+      large?: (string | null) | Media;
+      alt: string;
+    };
+  };
+  privacyContentSection: {
+    show?: boolean | null;
+    /**
+     * e.g., container, mod_privacy_policy
+     */
+    className?: string | null;
+    /**
+     * CSS color value
+     */
+    backgroundColor?: string | null;
+    /**
+     * CSS color value
+     */
+    textColor?: string | null;
+    /**
+     * CSS padding value (e.g., 60px, 4rem)
+     */
+    paddingTop?: string | null;
+    /**
+     * CSS padding value (e.g., 60px, 4rem)
+     */
+    paddingBottom?: string | null;
+    mainHeading: string;
+    mainHeadingBold?: boolean | null;
+    /**
+     * CSS color value
+     */
+    mainHeadingColor?: string | null;
+    /**
+     * CSS font-size value
+     */
+    mainHeadingFontSize?: string | null;
+    /**
+     * Your website URL to be displayed in content
+     */
+    websiteUrl?: string | null;
+    /**
+     * How the website URL appears in text
+     */
+    websiteDisplayText?: string | null;
+    /**
+     * Color for links in content
+     */
+    linkColor?: string | null;
+    /**
+     * Color for links on hover
+     */
+    linkHoverColor?: string | null;
+    /**
+     * Drag to reorder privacy sections
+     */
+    privacyBlocks?:
+      | {
+          blockType: 'paragraph' | 'heading' | 'unorderedList' | 'orderedList' | 'divider' | 'space';
+          /**
+           * Main text content for this block
+           */
+          content?: string | null;
+          headingLevel?: ('h2' | 'h3' | 'h4') | null;
+          bold?: boolean | null;
+          italic?: boolean | null;
+          /**
+           * CSS font-weight value (e.g., 400, 700)
+           */
+          fontWeight?: string | null;
+          /**
+           * CSS color value
+           */
+          textColor?: string | null;
+          /**
+           * Drag to reorder list items
+           */
+          listItems?:
+            | {
+                text: string;
+                bold?: boolean | null;
+                italic?: boolean | null;
+                /**
+                 * CSS font-weight value (e.g., 400, 700)
+                 */
+                fontWeight?: string | null;
+                /**
+                 * Add nested list items (one level deep)
+                 */
+                nestedList?:
+                  | {
+                      text: string;
+                      bold?: boolean | null;
+                      italic?: boolean | null;
+                      fontWeight?: string | null;
+                      id?: string | null;
+                    }[]
+                  | null;
+                id?: string | null;
+              }[]
+            | null;
+          /**
+           * CSS list-style-type
+           */
+          listStyleType?: string | null;
+          /**
+           * Starting number for ordered lists
+           */
+          listStartNumber?: string | null;
+          /**
+           * CSS margin value
+           */
+          marginTop?: string | null;
+          /**
+           * CSS margin value
+           */
+          marginBottom?: string | null;
+          customClassName?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Drag to reorder sections on the page
+   */
+  sectionOrder?:
+    | {
+        section: 'hero' | 'privacyContent';
+        id?: string | null;
+      }[]
+    | null;
+  globalStyles?: {
+    /**
+     * CSS max-width value (e.g., 1200px, 100%)
+     */
+    containerMaxWidth?: string | null;
+    /**
+     * CSS padding value (e.g., 20px, 1rem 2rem)
+     */
+    containerPadding?: string | null;
+    /**
+     * Spacing between sections (e.g., 60px, 4rem)
+     */
+    sectionSpacing?: string | null;
+    /**
+     * CSS font-family value
+     */
+    fontFamily?: string | null;
+    /**
+     * Primary brand color
+     */
+    primaryColor?: string | null;
+    /**
+     * Secondary brand color
+     */
+    secondaryColor?: string | null;
+    /**
+     * Default text color for the page
+     */
+    textColor?: string | null;
+    /**
+     * Default color for links
+     */
+    linkColor?: string | null;
+    /**
+     * Color for links on hover
+     */
+    linkHoverColor?: string | null;
+  };
+  typographySettings?: {
+    h1FontSize?: string | null;
+    h1Color?: string | null;
+    h1FontWeight?: string | null;
+    h2FontSize?: string | null;
+    h2Color?: string | null;
+    h2FontWeight?: string | null;
+    h3FontSize?: string | null;
+    h3Color?: string | null;
+    h3FontWeight?: string | null;
+    h4FontSize?: string | null;
+    h4Color?: string | null;
+    h4FontWeight?: string | null;
+    bodyFontSize?: string | null;
+    bodyLineHeight?: string | null;
+    /**
+     * Margin between paragraphs
+     */
+    paragraphSpacing?: string | null;
+    /**
+     * CSS list-style-type (e.g., disc, circle, square, none)
+     */
+    listStyleType?: string | null;
+    listMarginLeft?: string | null;
+    /**
+     * CSS list-style-type for numbered lists (e.g., decimal, lower-alpha)
+     */
+    orderedListStyleType?: string | null;
+  };
+  seoSettings?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+    ogImage?: (string | null) | Media;
+    /**
+     * Comma-separated keywords for SEO
+     */
+    keywords?: string | null;
+    canonicalUrl?: string | null;
+    robots?: ('index,follow' | 'noindex,follow' | 'index,nofollow' | 'noindex,nofollow') | null;
+    /**
+     * Add schema.org structured data in JSON-LD format
+     */
+    structuredData?: string | null;
+  };
+  accessibilitySettings?: {
+    skipToContent?: boolean | null;
+    ariaLabelsEnabled?: boolean | null;
+    altTextRequired?: boolean | null;
+    /**
+     * Color for focus outlines (accessibility)
+     */
+    focusVisibleColor?: string | null;
+    contrastMode?: ('normal' | 'high' | 'very-high') | null;
+    keyboardNavigationEnabled?: boolean | null;
+    /**
+     * Add visual indicators for external links
+     */
+    linkIndicators?: boolean | null;
+  };
+  mobileSettings?: {
+    /**
+     * Screen width for mobile (e.g., 768px)
+     */
+    mobileBreakpoint?: string | null;
+    /**
+     * Screen width for tablet (e.g., 1024px)
+     */
+    tabletBreakpoint?: string | null;
+    /**
+     * Percentage adjustment for mobile fonts (e.g., 90%)
+     */
+    mobileFontSizeAdjustment?: string | null;
+    /**
+     * Percentage adjustment for mobile spacing
+     */
+    mobileSpacingAdjustment?: string | null;
+    /**
+     * Automatically stack sections vertically on mobile devices
+     */
+    mobileStackSections?: boolean | null;
+    /**
+     * Max height for images on mobile (e.g., 300px)
+     */
+    mobileImageHeight?: string | null;
+    /**
+     * Comma-separated list of element classes to hide on mobile
+     */
+    mobileHideElements?: string | null;
+  };
+  advancedSettings?: {
+    /**
+     * Add custom CSS styles for this page
+     */
+    customCSS?: string | null;
+    /**
+     * Add custom JavaScript code for this page
+     */
+    customJS?: string | null;
+    /**
+     * Add custom data attributes to page elements
+     */
+    dataAttributes?:
+      | {
+          /**
+           * e.g., data-tracking-id
+           */
+          attribute?: string | null;
+          value?: string | null;
+          targetSection?: ('hero' | 'privacyContent') | null;
+          id?: string | null;
+        }[]
+      | null;
+    lazyLoadImages?: boolean | null;
+    enableCaching?: boolean | null;
+    /**
+     * Preload above-the-fold images for better performance
+     */
+    preloadImages?: boolean | null;
+  };
+  integrationSettings?: {
+    /**
+     * GA tracking ID for this page
+     */
+    googleAnalyticsId?: string | null;
+    facebookPixelId?: string | null;
+    enableTracking?: boolean | null;
+    conversionTrackingEnabled?: boolean | null;
+  };
+  performanceSettings?: {
+    imageOptimization?: boolean | null;
+    /**
+     * Compression quality (1-100)
+     */
+    imageQuality?: string | null;
+    imageFormat?: ('auto' | 'webp' | 'avif' | 'jpeg' | 'png') | null;
+    /**
+     * Comma-separated widths for responsive images (e.g., 420,800,1400)
+     */
+    responsiveImageSizes?: string | null;
+    minifyCSS?: boolean | null;
+    minifyJS?: boolean | null;
+    preloadCriticalAssets?: boolean | null;
+    enableCDN?: boolean | null;
+    /**
+     * Base URL for CDN (e.g., https://cdn.example.com)
+     */
+    cdnUrl?: string | null;
+  };
+  legalContentSettings?: {
+    companyName?: string | null;
+    /**
+     * Date when policy became effective
+     */
+    effectiveDate?: string | null;
+    contactPhone?: string | null;
+    contactEmail?: string | null;
+    physicalAddress?: string | null;
+    displayEffectiveDate?: boolean | null;
+    displayContactInfo?: boolean | null;
+  };
+  contentDisplaySettings?: {
+    /**
+     * Display a table of contents for easy navigation
+     */
+    showTableOfContents?: boolean | null;
+    tableOfContentsPosition?: ('top' | 'sidebar-left' | 'sidebar-right') | null;
+    enablePrintButton?: boolean | null;
+    enableDownloadPDF?: boolean | null;
+    showLastModified?: boolean | null;
+    /**
+     * Smooth scroll to sections when clicking TOC
+     */
+    enableSmoothScroll?: boolean | null;
+  };
+  /**
+   * Toggle to enable/disable this component
+   */
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sitemap-page-component".
+ */
+export interface SitemapPageComponent {
+  id: string;
+  componentName: string;
+  heroSection: {
+    show?: boolean | null;
+    /**
+     * e.g., banner, mobile-stack, no-bg
+     */
+    className?: string | null;
+    /**
+     * CSS color value (e.g., #ffffff, rgba(0,0,0,0.5))
+     */
+    backgroundColor?: string | null;
+    backgroundImage?: {
+      mobile?: (string | null) | Media;
+      tablet?: (string | null) | Media;
+      desktop?: (string | null) | Media;
+      large?: (string | null) | Media;
+      alt?: string | null;
+    };
+    /**
+     * Drag to reorder breadcrumb items
+     */
+    breadcrumbs?:
+      | {
+          label: string;
+          url: string;
+          ariaLabel?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    title: string;
+    /**
+     * CSS color value
+     */
+    titleColor?: string | null;
+    /**
+     * CSS font-size value (e.g., 48px, 3rem)
+     */
+    titleFontSize?: string | null;
+  };
+  sitemapNavSection?: {
+    show?: boolean | null;
+    /**
+     * e.g., container, mod_sitemap
+     */
+    className?: string | null;
+    /**
+     * CSS color value
+     */
+    backgroundColor?: string | null;
+    /**
+     * CSS color value
+     */
+    textColor?: string | null;
+    /**
+     * CSS padding value (e.g., 60px, 4rem)
+     */
+    paddingTop?: string | null;
+    /**
+     * CSS padding value (e.g., 60px, 4rem)
+     */
+    paddingBottom?: string | null;
+    navType?: ('vertical' | 'horizontal') | null;
+    navVariant?: ('default' | 'compact' | 'expanded') | null;
+    /**
+     * CSS color value for hamburger menu
+     */
+    hamburgerColor?: string | null;
+    /**
+     * CSS color value for expanded hamburger
+     */
+    hamburgerColorExpanded?: string | null;
+    /**
+     * Offset for menu positioning
+     */
+    menuOffset?: string | null;
+    /**
+     * Offset for menu positioning on mobile
+     */
+    menuOffsetMobile?: string | null;
+    /**
+     * Drag to reorder navigation items
+     */
+    navigationItems?:
+      | {
+          label: string;
+          url: string;
+          /**
+           * Additional CSS classes (e.g., home, about, mega-menu)
+           */
+          cssClass?: string | null;
+          openInNewTab?: boolean | null;
+          hasChildren?: boolean | null;
+          ariaLabel?: string | null;
+          /**
+           * Drag to reorder sub-menu items
+           */
+          subItems?:
+            | {
+                label: string;
+                url: string;
+                /**
+                 * Additional CSS classes (e.g., subcat-title)
+                 */
+                cssClass?: string | null;
+                openInNewTab?: boolean | null;
+                /**
+                 * e.g., noopener
+                 */
+                rel?: string | null;
+                hasChildren?: boolean | null;
+                /**
+                 * Drag to reorder nested sub-menu items
+                 */
+                subItems?:
+                  | {
+                      label: string;
+                      url: string;
+                      cssClass?: string | null;
+                      openInNewTab?: boolean | null;
+                      id?: string | null;
+                    }[]
+                  | null;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  socialContactSection?: {
+    show?: boolean | null;
+    /**
+     * Display phone number
+     */
+    phoneNumber?: string | null;
+    /**
+     * tel: link format
+     */
+    phoneNumberLink?: string | null;
+    phoneAriaLabel?: string | null;
+    /**
+     * Event tracking attribute
+     */
+    phoneEventTracking?: string | null;
+    /**
+     * Drag to reorder social media links
+     */
+    socialLinks?:
+      | {
+          platform: 'instagram' | 'facebook' | 'youtube' | 'twitter' | 'linkedin' | 'tiktok';
+          url: string;
+          title?: string | null;
+          ariaLabel?: string | null;
+          /**
+           * CSS class for the icon
+           */
+          iconClass?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Drag to reorder sections on the page
+   */
+  sectionOrder?:
+    | {
+        section: 'hero' | 'sitemapNav';
+        id?: string | null;
+      }[]
+    | null;
+  globalStyles?: {
+    /**
+     * CSS max-width value (e.g., 1200px, 100%)
+     */
+    containerMaxWidth?: string | null;
+    /**
+     * CSS padding value (e.g., 20px, 1rem 2rem)
+     */
+    containerPadding?: string | null;
+    /**
+     * Spacing between sections (e.g., 60px, 4rem)
+     */
+    sectionSpacing?: string | null;
+    /**
+     * CSS font-family value
+     */
+    fontFamily?: string | null;
+    /**
+     * Primary brand color
+     */
+    primaryColor?: string | null;
+    /**
+     * Secondary brand color
+     */
+    secondaryColor?: string | null;
+    /**
+     * Default text color for the page
+     */
+    textColor?: string | null;
+    /**
+     * Default color for links
+     */
+    linkColor?: string | null;
+    /**
+     * Color for links on hover
+     */
+    linkHoverColor?: string | null;
+  };
+  navigationStyles?: {
+    linkColor?: string | null;
+    linkHoverColor?: string | null;
+    linkActiveColor?: string | null;
+    /**
+     * CSS font-size value
+     */
+    linkFontSize?: string | null;
+    linkFontWeight?: string | null;
+    level1FontSize?: string | null;
+    level2FontSize?: string | null;
+    level3FontSize?: string | null;
+    dropdownIconColor?: string | null;
+    submenuBackgroundColor?: string | null;
+    submenuPadding?: string | null;
+  };
+  typographySettings?: {
+    h1FontSize?: string | null;
+    h1Color?: string | null;
+    h1FontWeight?: string | null;
+    bodyFontSize?: string | null;
+    bodyLineHeight?: string | null;
+  };
+  seoSettings?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+    ogImage?: (string | null) | Media;
+    /**
+     * Comma-separated keywords for SEO
+     */
+    keywords?: string | null;
+    canonicalUrl?: string | null;
+    robots?: ('index,follow' | 'noindex,follow' | 'index,nofollow' | 'noindex,nofollow') | null;
+    /**
+     * Add schema.org structured data in JSON-LD format
+     */
+    structuredData?: string | null;
+  };
+  accessibilitySettings?: {
+    skipToContent?: boolean | null;
+    ariaLabelsEnabled?: boolean | null;
+    altTextRequired?: boolean | null;
+    /**
+     * Color for focus outlines (accessibility)
+     */
+    focusVisibleColor?: string | null;
+    keyboardNavigationEnabled?: boolean | null;
+  };
+  mobileSettings?: {
+    /**
+     * Screen width for mobile (e.g., 768px)
+     */
+    mobileBreakpoint?: string | null;
+    /**
+     * Screen width for tablet (e.g., 1024px)
+     */
+    tabletBreakpoint?: string | null;
+    mobileNavType?: ('vertical' | 'horizontal') | null;
+    tabletNavType?: ('vertical' | 'horizontal') | null;
+    /**
+     * Percentage adjustment for mobile fonts (e.g., 90%)
+     */
+    mobileFontSizeAdjustment?: string | null;
+  };
+  advancedSettings?: {
+    /**
+     * Add custom CSS styles for this page
+     */
+    customCSS?: string | null;
+    /**
+     * Add custom JavaScript code for this page
+     */
+    customJS?: string | null;
+    lazyLoadImages?: boolean | null;
+    enableCaching?: boolean | null;
+  };
+  integrationSettings?: {
+    /**
+     * GA tracking ID for this page
+     */
+    googleAnalyticsId?: string | null;
+    enableTracking?: boolean | null;
+  };
+  performanceSettings?: {
+    imageOptimization?: boolean | null;
+    /**
+     * Compression quality (1-100)
+     */
+    imageQuality?: string | null;
+    /**
+     * Comma-separated widths for responsive images
+     */
+    responsiveImageSizes?: string | null;
+    minifyCSS?: boolean | null;
+    minifyJS?: boolean | null;
+  };
+  /**
+   * Toggle to enable/disable this component
+   */
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -38864,6 +40002,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'pages';
         value: string | Page;
+      } | null)
+    | ({
+        relationTo: 'terms-and-conditions-page-component';
+        value: string | TermsAndConditionsPageComponent;
+      } | null)
+    | ({
+        relationTo: 'privacy-policy-page-component';
+        value: string | PrivacyPolicyPageComponent;
+      } | null)
+    | ({
+        relationTo: 'sitemap-page-component';
+        value: string | SitemapPageComponent;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -38948,30 +40098,6 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
-  sizes?:
-    | T
-    | {
-        thumbnail?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        card?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -63880,6 +65006,681 @@ export interface PagesSelect<T extends boolean = true> {
         keyword?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "terms-and-conditions-page-component_select".
+ */
+export interface TermsAndConditionsPageComponentSelect<T extends boolean = true> {
+  componentName?: T;
+  heroSection?:
+    | T
+    | {
+        show?: T;
+        className?: T;
+        backgroundColor?: T;
+        backgroundImage?:
+          | T
+          | {
+              mobile?: T;
+              tablet?: T;
+              desktop?: T;
+              large?: T;
+              alt?: T;
+            };
+        breadcrumbs?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+              ariaLabel?: T;
+              id?: T;
+            };
+        title?: T;
+        titleColor?: T;
+        titleFontSize?: T;
+        mediaImage?:
+          | T
+          | {
+              mobile?: T;
+              tablet?: T;
+              desktop?: T;
+              large?: T;
+              alt?: T;
+            };
+      };
+  termsContentSection?:
+    | T
+    | {
+        show?: T;
+        className?: T;
+        backgroundColor?: T;
+        textColor?: T;
+        paddingTop?: T;
+        paddingBottom?: T;
+        mainHeading?: T;
+        mainHeadingColor?: T;
+        mainHeadingFontSize?: T;
+        introductionParagraphs?:
+          | T
+          | {
+              content?: T;
+              textColor?: T;
+              fontSize?: T;
+              id?: T;
+            };
+        websiteUrl?: T;
+        websiteDisplayText?: T;
+        linkColor?: T;
+        linkHoverColor?: T;
+        termsBlocks?:
+          | T
+          | {
+              heading?: T;
+              headingColor?: T;
+              headingFontSize?: T;
+              contentType?: T;
+              paragraphs?:
+                | T
+                | {
+                    text?: T;
+                    textColor?: T;
+                    id?: T;
+                  };
+              listItems?:
+                | T
+                | {
+                    text?: T;
+                    textColor?: T;
+                    id?: T;
+                  };
+              listStyleType?: T;
+              listMarginLeft?: T;
+              backgroundColor?: T;
+              paddingTop?: T;
+              paddingBottom?: T;
+              id?: T;
+            };
+      };
+  sectionOrder?:
+    | T
+    | {
+        section?: T;
+        id?: T;
+      };
+  globalStyles?:
+    | T
+    | {
+        containerMaxWidth?: T;
+        containerPadding?: T;
+        sectionSpacing?: T;
+        fontFamily?: T;
+        primaryColor?: T;
+        secondaryColor?: T;
+        textColor?: T;
+        linkColor?: T;
+        linkHoverColor?: T;
+      };
+  typographySettings?:
+    | T
+    | {
+        h1FontSize?: T;
+        h1Color?: T;
+        h1FontWeight?: T;
+        h2FontSize?: T;
+        h2Color?: T;
+        h2FontWeight?: T;
+        h3FontSize?: T;
+        h3Color?: T;
+        h3FontWeight?: T;
+        bodyFontSize?: T;
+        bodyLineHeight?: T;
+        paragraphSpacing?: T;
+        listStyleType?: T;
+        listMarginLeft?: T;
+        orderedListStyleType?: T;
+      };
+  layoutSettings?:
+    | T
+    | {
+        contentMaxWidth?: T;
+        contentPadding?: T;
+        rowGap?: T;
+        imageObjectFit?: T;
+      };
+  animationSettings?:
+    | T
+    | {
+        enableAnimations?: T;
+        fadeInDuration?: T;
+        fadeInDelay?: T;
+        animationEasing?: T;
+        enableScrollAnimations?: T;
+        scrollAnimationOffset?: T;
+      };
+  seoSettings?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        ogImage?: T;
+        keywords?: T;
+        canonicalUrl?: T;
+        robots?: T;
+        structuredData?: T;
+      };
+  accessibilitySettings?:
+    | T
+    | {
+        skipToContent?: T;
+        ariaLabelsEnabled?: T;
+        altTextRequired?: T;
+        focusVisibleColor?: T;
+        contrastMode?: T;
+        keyboardNavigationEnabled?: T;
+        linkIndicators?: T;
+      };
+  mobileSettings?:
+    | T
+    | {
+        mobileBreakpoint?: T;
+        tabletBreakpoint?: T;
+        mobileFontSizeAdjustment?: T;
+        mobileSpacingAdjustment?: T;
+        mobileStackSections?: T;
+        mobileImageHeight?: T;
+        mobileHideElements?: T;
+      };
+  advancedSettings?:
+    | T
+    | {
+        customCSS?: T;
+        customJS?: T;
+        dataAttributes?:
+          | T
+          | {
+              attribute?: T;
+              value?: T;
+              targetSection?: T;
+              id?: T;
+            };
+        lazyLoadImages?: T;
+        enableCaching?: T;
+        preloadImages?: T;
+      };
+  integrationSettings?:
+    | T
+    | {
+        googleAnalyticsId?: T;
+        facebookPixelId?: T;
+        enableTracking?: T;
+        conversionTrackingEnabled?: T;
+      };
+  performanceSettings?:
+    | T
+    | {
+        imageOptimization?: T;
+        imageQuality?: T;
+        imageFormat?: T;
+        responsiveImageSizes?: T;
+        minifyCSS?: T;
+        minifyJS?: T;
+        preloadCriticalAssets?: T;
+        enableCDN?: T;
+        cdnUrl?: T;
+      };
+  legalContentSettings?:
+    | T
+    | {
+        companyName?: T;
+        lastUpdatedDate?: T;
+        governingState?: T;
+        displayUpdateDate?: T;
+        legalDisclaimer?: T;
+      };
+  contentDisplaySettings?:
+    | T
+    | {
+        showTableOfContents?: T;
+        tableOfContentsPosition?: T;
+        enablePrintButton?: T;
+        enableDownloadPDF?: T;
+        showLastModified?: T;
+        enableSmoothScroll?: T;
+      };
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "privacy-policy-page-component_select".
+ */
+export interface PrivacyPolicyPageComponentSelect<T extends boolean = true> {
+  componentName?: T;
+  heroSection?:
+    | T
+    | {
+        show?: T;
+        className?: T;
+        backgroundColor?: T;
+        backgroundImage?:
+          | T
+          | {
+              mobile?: T;
+              tablet?: T;
+              desktop?: T;
+              large?: T;
+              alt?: T;
+            };
+        breadcrumbs?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+              ariaLabel?: T;
+              id?: T;
+            };
+        title?: T;
+        titleColor?: T;
+        titleFontSize?: T;
+        mediaImage?:
+          | T
+          | {
+              mobile?: T;
+              tablet?: T;
+              desktop?: T;
+              large?: T;
+              alt?: T;
+            };
+      };
+  privacyContentSection?:
+    | T
+    | {
+        show?: T;
+        className?: T;
+        backgroundColor?: T;
+        textColor?: T;
+        paddingTop?: T;
+        paddingBottom?: T;
+        mainHeading?: T;
+        mainHeadingBold?: T;
+        mainHeadingColor?: T;
+        mainHeadingFontSize?: T;
+        websiteUrl?: T;
+        websiteDisplayText?: T;
+        linkColor?: T;
+        linkHoverColor?: T;
+        privacyBlocks?:
+          | T
+          | {
+              blockType?: T;
+              content?: T;
+              headingLevel?: T;
+              bold?: T;
+              italic?: T;
+              fontWeight?: T;
+              textColor?: T;
+              listItems?:
+                | T
+                | {
+                    text?: T;
+                    bold?: T;
+                    italic?: T;
+                    fontWeight?: T;
+                    nestedList?:
+                      | T
+                      | {
+                          text?: T;
+                          bold?: T;
+                          italic?: T;
+                          fontWeight?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                  };
+              listStyleType?: T;
+              listStartNumber?: T;
+              marginTop?: T;
+              marginBottom?: T;
+              customClassName?: T;
+              id?: T;
+            };
+      };
+  sectionOrder?:
+    | T
+    | {
+        section?: T;
+        id?: T;
+      };
+  globalStyles?:
+    | T
+    | {
+        containerMaxWidth?: T;
+        containerPadding?: T;
+        sectionSpacing?: T;
+        fontFamily?: T;
+        primaryColor?: T;
+        secondaryColor?: T;
+        textColor?: T;
+        linkColor?: T;
+        linkHoverColor?: T;
+      };
+  typographySettings?:
+    | T
+    | {
+        h1FontSize?: T;
+        h1Color?: T;
+        h1FontWeight?: T;
+        h2FontSize?: T;
+        h2Color?: T;
+        h2FontWeight?: T;
+        h3FontSize?: T;
+        h3Color?: T;
+        h3FontWeight?: T;
+        h4FontSize?: T;
+        h4Color?: T;
+        h4FontWeight?: T;
+        bodyFontSize?: T;
+        bodyLineHeight?: T;
+        paragraphSpacing?: T;
+        listStyleType?: T;
+        listMarginLeft?: T;
+        orderedListStyleType?: T;
+      };
+  seoSettings?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        ogImage?: T;
+        keywords?: T;
+        canonicalUrl?: T;
+        robots?: T;
+        structuredData?: T;
+      };
+  accessibilitySettings?:
+    | T
+    | {
+        skipToContent?: T;
+        ariaLabelsEnabled?: T;
+        altTextRequired?: T;
+        focusVisibleColor?: T;
+        contrastMode?: T;
+        keyboardNavigationEnabled?: T;
+        linkIndicators?: T;
+      };
+  mobileSettings?:
+    | T
+    | {
+        mobileBreakpoint?: T;
+        tabletBreakpoint?: T;
+        mobileFontSizeAdjustment?: T;
+        mobileSpacingAdjustment?: T;
+        mobileStackSections?: T;
+        mobileImageHeight?: T;
+        mobileHideElements?: T;
+      };
+  advancedSettings?:
+    | T
+    | {
+        customCSS?: T;
+        customJS?: T;
+        dataAttributes?:
+          | T
+          | {
+              attribute?: T;
+              value?: T;
+              targetSection?: T;
+              id?: T;
+            };
+        lazyLoadImages?: T;
+        enableCaching?: T;
+        preloadImages?: T;
+      };
+  integrationSettings?:
+    | T
+    | {
+        googleAnalyticsId?: T;
+        facebookPixelId?: T;
+        enableTracking?: T;
+        conversionTrackingEnabled?: T;
+      };
+  performanceSettings?:
+    | T
+    | {
+        imageOptimization?: T;
+        imageQuality?: T;
+        imageFormat?: T;
+        responsiveImageSizes?: T;
+        minifyCSS?: T;
+        minifyJS?: T;
+        preloadCriticalAssets?: T;
+        enableCDN?: T;
+        cdnUrl?: T;
+      };
+  legalContentSettings?:
+    | T
+    | {
+        companyName?: T;
+        effectiveDate?: T;
+        contactPhone?: T;
+        contactEmail?: T;
+        physicalAddress?: T;
+        displayEffectiveDate?: T;
+        displayContactInfo?: T;
+      };
+  contentDisplaySettings?:
+    | T
+    | {
+        showTableOfContents?: T;
+        tableOfContentsPosition?: T;
+        enablePrintButton?: T;
+        enableDownloadPDF?: T;
+        showLastModified?: T;
+        enableSmoothScroll?: T;
+      };
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sitemap-page-component_select".
+ */
+export interface SitemapPageComponentSelect<T extends boolean = true> {
+  componentName?: T;
+  heroSection?:
+    | T
+    | {
+        show?: T;
+        className?: T;
+        backgroundColor?: T;
+        backgroundImage?:
+          | T
+          | {
+              mobile?: T;
+              tablet?: T;
+              desktop?: T;
+              large?: T;
+              alt?: T;
+            };
+        breadcrumbs?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+              ariaLabel?: T;
+              id?: T;
+            };
+        title?: T;
+        titleColor?: T;
+        titleFontSize?: T;
+      };
+  sitemapNavSection?:
+    | T
+    | {
+        show?: T;
+        className?: T;
+        backgroundColor?: T;
+        textColor?: T;
+        paddingTop?: T;
+        paddingBottom?: T;
+        navType?: T;
+        navVariant?: T;
+        hamburgerColor?: T;
+        hamburgerColorExpanded?: T;
+        menuOffset?: T;
+        menuOffsetMobile?: T;
+        navigationItems?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+              cssClass?: T;
+              openInNewTab?: T;
+              hasChildren?: T;
+              ariaLabel?: T;
+              subItems?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                    cssClass?: T;
+                    openInNewTab?: T;
+                    rel?: T;
+                    hasChildren?: T;
+                    subItems?:
+                      | T
+                      | {
+                          label?: T;
+                          url?: T;
+                          cssClass?: T;
+                          openInNewTab?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                  };
+              id?: T;
+            };
+      };
+  socialContactSection?:
+    | T
+    | {
+        show?: T;
+        phoneNumber?: T;
+        phoneNumberLink?: T;
+        phoneAriaLabel?: T;
+        phoneEventTracking?: T;
+        socialLinks?:
+          | T
+          | {
+              platform?: T;
+              url?: T;
+              title?: T;
+              ariaLabel?: T;
+              iconClass?: T;
+              id?: T;
+            };
+      };
+  sectionOrder?:
+    | T
+    | {
+        section?: T;
+        id?: T;
+      };
+  globalStyles?:
+    | T
+    | {
+        containerMaxWidth?: T;
+        containerPadding?: T;
+        sectionSpacing?: T;
+        fontFamily?: T;
+        primaryColor?: T;
+        secondaryColor?: T;
+        textColor?: T;
+        linkColor?: T;
+        linkHoverColor?: T;
+      };
+  navigationStyles?:
+    | T
+    | {
+        linkColor?: T;
+        linkHoverColor?: T;
+        linkActiveColor?: T;
+        linkFontSize?: T;
+        linkFontWeight?: T;
+        level1FontSize?: T;
+        level2FontSize?: T;
+        level3FontSize?: T;
+        dropdownIconColor?: T;
+        submenuBackgroundColor?: T;
+        submenuPadding?: T;
+      };
+  typographySettings?:
+    | T
+    | {
+        h1FontSize?: T;
+        h1Color?: T;
+        h1FontWeight?: T;
+        bodyFontSize?: T;
+        bodyLineHeight?: T;
+      };
+  seoSettings?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        ogImage?: T;
+        keywords?: T;
+        canonicalUrl?: T;
+        robots?: T;
+        structuredData?: T;
+      };
+  accessibilitySettings?:
+    | T
+    | {
+        skipToContent?: T;
+        ariaLabelsEnabled?: T;
+        altTextRequired?: T;
+        focusVisibleColor?: T;
+        keyboardNavigationEnabled?: T;
+      };
+  mobileSettings?:
+    | T
+    | {
+        mobileBreakpoint?: T;
+        tabletBreakpoint?: T;
+        mobileNavType?: T;
+        tabletNavType?: T;
+        mobileFontSizeAdjustment?: T;
+      };
+  advancedSettings?:
+    | T
+    | {
+        customCSS?: T;
+        customJS?: T;
+        lazyLoadImages?: T;
+        enableCaching?: T;
+      };
+  integrationSettings?:
+    | T
+    | {
+        googleAnalyticsId?: T;
+        enableTracking?: T;
+      };
+  performanceSettings?:
+    | T
+    | {
+        imageOptimization?: T;
+        imageQuality?: T;
+        responsiveImageSizes?: T;
+        minifyCSS?: T;
+        minifyJS?: T;
+      };
+  isActive?: T;
   updatedAt?: T;
   createdAt?: T;
 }

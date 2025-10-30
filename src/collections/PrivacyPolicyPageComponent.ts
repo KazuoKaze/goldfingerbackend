@@ -1,7 +1,7 @@
 import { CollectionConfig } from 'payload'
 
-export const TermsAndConditionsPageComponent: CollectionConfig = {
-  slug: 'terms-and-conditions-page-component',
+export const PrivacyPolicyPageComponent: CollectionConfig = {
+  slug: 'privacy-policy-page-component',
   admin: {
     useAsTitle: 'componentName',
     defaultColumns: ['componentName', 'updatedAt'],
@@ -15,7 +15,7 @@ export const TermsAndConditionsPageComponent: CollectionConfig = {
       name: 'componentName',
       type: 'text',
       required: true,
-      defaultValue: 'Terms And Conditions Page Component',
+      defaultValue: 'Privacy Policy Page Component',
     },
     // Hero Section
     {
@@ -115,8 +115,8 @@ export const TermsAndConditionsPageComponent: CollectionConfig = {
               ariaLabel: 'Breadcrumbs to help navigate the user',
             },
             {
-              label: 'Terms And Conditions',
-              url: '/terms-and-conditions/',
+              label: 'Privacy Policy',
+              url: '/privacy-policy/',
               ariaLabel: 'Breadcrumbs to help navigate the user',
             },
           ],
@@ -125,7 +125,7 @@ export const TermsAndConditionsPageComponent: CollectionConfig = {
           name: 'title',
           type: 'text',
           required: true,
-          defaultValue: 'Terms & Conditions',
+          defaultValue: 'Privacy Policy',
         },
         {
           name: 'titleColor',
@@ -183,11 +183,11 @@ export const TermsAndConditionsPageComponent: CollectionConfig = {
         },
       ],
     },
-    // Terms Content Section
+    // Privacy Content Section
     {
-      name: 'termsContentSection',
+      name: 'privacyContentSection',
       type: 'group',
-      label: 'Terms Content Section',
+      label: 'Privacy Content Section',
       fields: [
         {
           name: 'show',
@@ -200,9 +200,9 @@ export const TermsAndConditionsPageComponent: CollectionConfig = {
           type: 'text',
           label: 'Additional CSS Classes',
           admin: {
-            description: 'e.g., container, viewport',
+            description: 'e.g., container, mod_privacy_policy',
           },
-          defaultValue: 'container',
+          defaultValue: 'container mod_privacy_policy',
         },
         {
           name: 'backgroundColor',
@@ -241,7 +241,13 @@ export const TermsAndConditionsPageComponent: CollectionConfig = {
           type: 'text',
           label: 'Main Heading',
           required: true,
-          defaultValue: 'Terms of Service',
+          defaultValue: 'Privacy Policy',
+        },
+        {
+          name: 'mainHeadingBold',
+          type: 'checkbox',
+          label: 'Bold Main Heading',
+          defaultValue: true,
         },
         {
           name: 'mainHeadingColor',
@@ -260,55 +266,6 @@ export const TermsAndConditionsPageComponent: CollectionConfig = {
           },
         },
         {
-          name: 'introductionParagraphs',
-          type: 'array',
-          label: 'Introduction Paragraphs',
-          admin: {
-            description: 'Drag to reorder introduction paragraphs',
-          },
-          fields: [
-            {
-              name: 'content',
-              type: 'textarea',
-              required: true,
-            },
-            {
-              name: 'textColor',
-              type: 'text',
-              label: 'Custom Text Color',
-              admin: {
-                description: 'Override global text color for this paragraph',
-              },
-            },
-            {
-              name: 'fontSize',
-              type: 'text',
-              label: 'Custom Font Size',
-              admin: {
-                description: 'CSS font-size value',
-              },
-            },
-          ],
-          defaultValue: [
-            {
-              content:
-                'These Terms of Service govern your use of the website located at www.goldfingersaesthetics.com and any related services provided by Goldfingers Aesthetics.',
-            },
-            {
-              content:
-                'By accessing www.goldfingersaesthetics.com, you agree to abide by these Terms of Service and to comply with all applicable laws and regulations. If you do not agree with these Terms of Service, you are prohibited from using or accessing this website or using any other services provided by Goldfingers Aesthetics.',
-            },
-            {
-              content:
-                'We, Goldfingers Aesthetics, reserve the right to review and amend any of these Terms of Service at our sole discretion. Upon doing so, we will update this page. Any changes to these Terms of Service will take effect immediately from the date of publication.',
-            },
-            {
-              content:
-                'These Terms of Service were last updated on January 1, 2025.',
-            },
-          ],
-        },
-        {
           name: 'websiteUrl',
           type: 'text',
           label: 'Website URL',
@@ -324,7 +281,7 @@ export const TermsAndConditionsPageComponent: CollectionConfig = {
           admin: {
             description: 'How the website URL appears in text',
           },
-          defaultValue: 'www.goldfingersaesthetics.com',
+          defaultValue: 'https://www.goldfingersaesthetics.com',
         },
         {
           name: 'linkColor',
@@ -343,69 +300,91 @@ export const TermsAndConditionsPageComponent: CollectionConfig = {
           },
         },
         {
-          name: 'termsBlocks',
+          name: 'privacyBlocks',
           type: 'array',
-          label: 'Terms Content Blocks',
+          label: 'Privacy Content Blocks',
           admin: {
-            description: 'Drag to reorder terms sections',
+            description: 'Drag to reorder privacy sections',
           },
           fields: [
             {
-              name: 'heading',
-              type: 'text',
-              label: 'Section Heading',
+              name: 'blockType',
+              type: 'select',
+              label: 'Block Type',
+              options: [
+                { label: 'Paragraph', value: 'paragraph' },
+                { label: 'Heading', value: 'heading' },
+                { label: 'Unordered List', value: 'unorderedList' },
+                { label: 'Ordered List', value: 'orderedList' },
+                { label: 'Divider Line', value: 'divider' },
+                { label: 'Empty Space', value: 'space' },
+              ],
               required: true,
+              defaultValue: 'paragraph',
             },
             {
-              name: 'headingColor',
+              name: 'content',
+              type: 'textarea',
+              label: 'Content',
+              admin: {
+                description: 'Main text content for this block',
+                condition: (data, siblingData) =>
+                  siblingData?.blockType === 'paragraph' || siblingData?.blockType === 'heading',
+              },
+            },
+            {
+              name: 'headingLevel',
+              type: 'select',
+              label: 'Heading Level',
+              options: [
+                { label: 'H2', value: 'h2' },
+                { label: 'H3', value: 'h3' },
+                { label: 'H4', value: 'h4' },
+              ],
+              defaultValue: 'h2',
+              admin: {
+                condition: (data, siblingData) => siblingData?.blockType === 'heading',
+              },
+            },
+            {
+              name: 'bold',
+              type: 'checkbox',
+              label: 'Bold Text',
+              defaultValue: false,
+              admin: {
+                condition: (data, siblingData) =>
+                  siblingData?.blockType === 'paragraph' || siblingData?.blockType === 'heading',
+              },
+            },
+            {
+              name: 'italic',
+              type: 'checkbox',
+              label: 'Italic Text',
+              defaultValue: false,
+              admin: {
+                condition: (data, siblingData) =>
+                  siblingData?.blockType === 'paragraph' || siblingData?.blockType === 'heading',
+              },
+            },
+            {
+              name: 'fontWeight',
               type: 'text',
-              label: 'Heading Color',
+              label: 'Font Weight',
+              admin: {
+                description: 'CSS font-weight value (e.g., 400, 700)',
+                condition: (data, siblingData) =>
+                  siblingData?.blockType === 'paragraph' || siblingData?.blockType === 'heading',
+              },
+            },
+            {
+              name: 'textColor',
+              type: 'text',
+              label: 'Text Color',
               admin: {
                 description: 'CSS color value',
-              },
-            },
-            {
-              name: 'headingFontSize',
-              type: 'text',
-              label: 'Heading Font Size',
-              admin: {
-                description: 'CSS font-size value',
-              },
-            },
-            {
-              name: 'contentType',
-              type: 'select',
-              label: 'Content Type',
-              options: [
-                { label: 'Paragraphs', value: 'paragraphs' },
-                { label: 'Ordered List', value: 'orderedList' },
-                { label: 'Unordered List', value: 'unorderedList' },
-                { label: 'Mixed', value: 'mixed' },
-              ],
-              defaultValue: 'paragraphs',
-            },
-            {
-              name: 'paragraphs',
-              type: 'array',
-              label: 'Paragraphs',
-              admin: {
-                description: 'Add multiple paragraphs for this section',
                 condition: (data, siblingData) =>
-                  siblingData?.contentType === 'paragraphs' ||
-                  siblingData?.contentType === 'mixed',
+                  siblingData?.blockType === 'paragraph' || siblingData?.blockType === 'heading',
               },
-              fields: [
-                {
-                  name: 'text',
-                  type: 'textarea',
-                  required: true,
-                },
-                {
-                  name: 'textColor',
-                  type: 'text',
-                  label: 'Custom Text Color',
-                },
-              ],
             },
             {
               name: 'listItems',
@@ -414,9 +393,8 @@ export const TermsAndConditionsPageComponent: CollectionConfig = {
               admin: {
                 description: 'Drag to reorder list items',
                 condition: (data, siblingData) =>
-                  siblingData?.contentType === 'orderedList' ||
-                  siblingData?.contentType === 'unorderedList' ||
-                  siblingData?.contentType === 'mixed',
+                  siblingData?.blockType === 'unorderedList' ||
+                  siblingData?.blockType === 'orderedList',
               },
               fields: [
                 {
@@ -425,9 +403,56 @@ export const TermsAndConditionsPageComponent: CollectionConfig = {
                   required: true,
                 },
                 {
-                  name: 'textColor',
+                  name: 'bold',
+                  type: 'checkbox',
+                  label: 'Bold Text',
+                  defaultValue: false,
+                },
+                {
+                  name: 'italic',
+                  type: 'checkbox',
+                  label: 'Italic Text',
+                  defaultValue: false,
+                },
+                {
+                  name: 'fontWeight',
                   type: 'text',
-                  label: 'Custom Text Color',
+                  label: 'Font Weight',
+                  admin: {
+                    description: 'CSS font-weight value (e.g., 400, 700)',
+                  },
+                },
+                {
+                  name: 'nestedList',
+                  type: 'array',
+                  label: 'Nested List Items',
+                  admin: {
+                    description: 'Add nested list items (one level deep)',
+                  },
+                  fields: [
+                    {
+                      name: 'text',
+                      type: 'textarea',
+                      required: true,
+                    },
+                    {
+                      name: 'bold',
+                      type: 'checkbox',
+                      label: 'Bold Text',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'italic',
+                      type: 'checkbox',
+                      label: 'Italic Text',
+                      defaultValue: false,
+                    },
+                    {
+                      name: 'fontWeight',
+                      type: 'text',
+                      label: 'Font Weight',
+                    },
+                  ],
                 },
               ],
             },
@@ -436,152 +461,406 @@ export const TermsAndConditionsPageComponent: CollectionConfig = {
               type: 'text',
               label: 'List Style Type',
               admin: {
-                description: 'CSS list-style-type (e.g., decimal, disc, circle)',
+                description: 'CSS list-style-type',
                 condition: (data, siblingData) =>
-                  siblingData?.contentType === 'orderedList' ||
-                  siblingData?.contentType === 'unorderedList',
+                  siblingData?.blockType === 'unorderedList' ||
+                  siblingData?.blockType === 'orderedList',
               },
             },
             {
-              name: 'listMarginLeft',
+              name: 'listStartNumber',
               type: 'text',
-              label: 'List Left Margin',
+              label: 'List Start Number',
               admin: {
-                description: 'CSS margin value for list indentation',
+                description: 'Starting number for ordered lists',
+                condition: (data, siblingData) => siblingData?.blockType === 'orderedList',
               },
             },
             {
-              name: 'backgroundColor',
+              name: 'marginTop',
               type: 'text',
-              label: 'Section Background Color',
+              label: 'Margin Top',
               admin: {
-                description: 'Override background for this section',
+                description: 'CSS margin value',
               },
             },
             {
-              name: 'paddingTop',
+              name: 'marginBottom',
               type: 'text',
-              label: 'Section Padding Top',
+              label: 'Margin Bottom',
+              admin: {
+                description: 'CSS margin value',
+              },
             },
             {
-              name: 'paddingBottom',
+              name: 'customClassName',
               type: 'text',
-              label: 'Section Padding Bottom',
+              label: 'Custom CSS Class',
             },
           ],
           defaultValue: [
             {
-              heading: 'Limitations of Use',
-              contentType: 'mixed',
-              paragraphs: [
-                {
-                  text: 'By using this website, you warrant on behalf of yourself, your users, and other parties you represent that you will not:',
-                },
-              ],
+              blockType: 'paragraph',
+              content:
+                'Goldfingers Aesthetics ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy describes how we collect, use, disclose, and protect your information when you visit our website, https://www.goldfingersaesthetics.com ("Website"), or interact with us in any other manner.',
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content:
+                "Your privacy is important to us. It is Goldfingers Aesthetics's policy to respect your privacy regarding any information we may collect from you across our website, https://www.goldfingersaesthetics.com, and other sites we own and operate.",
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content:
+                "We only ask for personal information when we truly need it to provide a service to you. We collect it by fair and lawful means, with your knowledge and consent. We also let you know why we're collecting it and how it will be used.",
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content:
+                "We only retain collected information for as long as necessary to provide you with your requested service. What data we store, we'll protect within commercially acceptable means to prevent loss and theft, as well as unauthorized access, disclosure, copying, use or modification.",
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content:
+                "We don't share any personally identifying information publicly or with third-parties, except when required to by law.",
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content:
+                'Our website may link to external sites that are not operated by us. Please be aware that we have no control over the content and practices of these sites, and cannot accept responsibility or liability for their respective privacy policies.',
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content:
+                'You are free to refuse our request for your personal information, with the understanding that we may be unable to provide you with some of your desired services.',
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content:
+                'Your continued use of our website will be regarded as acceptance of our practices around privacy and personal information. If you have any questions about how we handle user data and personal information, feel free to contact us.',
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content: 'This policy is effective as of March 6, 2025.',
+              fontWeight: '400',
+            },
+            {
+              blockType: 'space',
+            },
+            {
+              blockType: 'paragraph',
+              content: 'Information We Collect',
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content: 'We may collect the following types of information from you:',
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content:
+                'Personal Information: When you contact us through our Website, phone, or email, we may collect personal information that you provide, including your full name, phone number, email address, and mailing address.',
+              bold: false,
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content:
+                'Automatically Collected Information: When you visit our Website, we may automatically collect certain information about your device and usage, including IP address, browser type, operating system, referring URLs, and pages viewed.',
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content: 'How We Use Your Information',
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content: 'We use the information we collect for the following purposes:',
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content:
+                'To Communicate with You: We use your contact information to respond to your inquiries, provide legal services, send administrative information, and keep you informed about your case or our services.',
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content:
+                'Marketing and Promotional Communications: With your consent, we may use your information to send you updates, newsletters, or marketing communications via email, phone, or text message. You can opt out of receiving these communications at any time by following the instructions provided in the communication or contacting us directly.',
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content:
+                'Legal Compliance: We may use your information to comply with applicable laws, regulations, or legal obligations, including responding to subpoenas, court orders, or legal requests.',
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content: 'Consent to Receive Text Messages',
+              bold: true,
+            },
+            {
+              blockType: 'paragraph',
+              content:
+                'You are not required to consent to receiving text messages from Goldfingers Aesthetics. By providing your phone number and opting in, you consent to receive text messages from Goldfingers Aesthetics regarding your inquiry, our services, or related legal matters. Message and data rates may apply. You can opt out of receiving text messages at any time by replying "STOP" to any text message your receive from us. Please note that opting out may limit our ability to communicate with you regarding your case or services.',
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content: 'Information Sharing and Disclosure',
+              bold: true,
+            },
+            {
+              blockType: 'paragraph',
+              content:
+                'We do not sell or rent your personal information to third parties. We do not sell, rent, release, or transfer your SMS consent or phone number to any third party for any third party marketing purposes. We may share your information in the following circumstances:',
+              bold: false,
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content:
+                'Service Providers: We may share your information with our service providers who perform services on our behalf, such as marketing, customer services, or technical support. These service providers are contractually obligated to protect your information and use it only for services they provide.',
+              italic: true,
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content:
+                'Legal Requirements: We may disclose your information if required by law, regulation, or legal process, or if we believe disclosure is necessary to protect our rights, property, or the safety of our users or others.',
+              italic: true,
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content: 'Data Security',
+              bold: true,
+            },
+            {
+              blockType: 'paragraph',
+              content:
+                'We implement reasonable security measures to protect your personal information from unauthorized access, use, disclosure, alteration, or destruction. However, no method of transmission over the internet or electronic storage is completely secure, and we cannot guarantee absolute security.',
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content: 'Your Rights and Choices',
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content:
+                'Opting Out: You may opt out of receiving marketing communications from us by following the instructions in those communications or contacting us directly. If you opt out, we may still send you non-promotional communications related to your legal services or our ongoing business relationship.',
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content:
+                'Access and Update Information: You have the right to access, update, or correct your personal information. To do so, please contact us using the information provided below.',
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content: 'Third-Party Websites',
+              bold: true,
+            },
+            {
+              blockType: 'paragraph',
+              content:
+                'Our Website may contain links to third-party websites. We are not responsible for the privacy practices or content of these third-party sites. We encourage you to review the privacy policies of any third-party websites you visit.',
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content: "Children's Privacy",
+              bold: true,
+            },
+            {
+              blockType: 'paragraph',
+              content:
+                'Our website is not intended for children under the age of 13. We do not knowingly collect personal information from children under 13. If we become aware that we have inadvertently collected personal information from a child under 13, we will take steps to delete such information.',
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content: 'Changes to This Privacy Policy',
+              bold: true,
+            },
+            {
+              blockType: 'paragraph',
+              content:
+                'We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated "Last Updated" date. We encourage you to review this Privacy Policy periodically for any updates.',
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content: 'Contact Us',
+              bold: true,
+            },
+            {
+              blockType: 'paragraph',
+              content:
+                'If you have any questions or concerns about this Privacy Policy or our privacy practices, please contact us at:',
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content: 'Goldfingers Aesthetics',
+              italic: true,
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content: '115 International Pkwy, Lake Mary, FL 32746',
+              italic: true,
+              fontWeight: '400',
+            },
+            {
+              blockType: 'paragraph',
+              content: '(407) 405-3388',
+              italic: true,
+              fontWeight: '400',
+            },
+            {
+              blockType: 'space',
+            },
+            {
+              blockType: 'divider',
+            },
+            {
+              blockType: 'paragraph',
+              content: 'Terms and Conditions',
+              bold: true,
+            },
+            {
+              blockType: 'orderedList',
               listItems: [
                 {
-                  text: 'modify, copy, prepare derivative works of, decompile, or reverse engineer any materials and software contained on this website;',
-                },
-                {
-                  text: 'remove any copyright or other proprietary notations from any materials and software on this website;',
-                },
-                {
-                  text: 'transfer the materials to another person or "mirror" the materials on any other server;',
-                },
-                {
-                  text: 'knowingly or negligently use this website or any of its associated services in a way that abuses or disrupts our networks or any other service Goldfingers Aesthetics provides;',
-                },
-                {
-                  text: 'use this website or its associated services to transmit or publish any harassing, indecent, obscene, fraudulent, or unlawful material;',
-                },
-                {
-                  text: 'use this website or its associated services in violation of any applicable laws or regulations;',
-                },
-                {
-                  text: 'use this website in conjunction with sending unauthorized advertising or spam;',
-                },
-                {
-                  text: 'harvest, collect, or gather user data without the users consent; or',
-                },
-                {
-                  text: 'use this website or its associated services in such a way that may infringe the privacy, intellectual property rights, or other rights of third parties.',
+                  text: 'Introduction',
+                  bold: true,
+                  italic: true,
                 },
               ],
             },
             {
-              heading: 'Intellectual Property',
-              contentType: 'paragraphs',
-              paragraphs: [
+              blockType: 'paragraph',
+              content:
+                'Welcome to Goldfingers Aesthetics. By accessing or using our services, including receiving SMS communications, you agree to comply with and be bound by these Terms and Conditions. If you do not agree with these terms, please do not engage with our services.',
+              italic: true,
+              fontWeight: '400',
+            },
+            {
+              blockType: 'orderedList',
+              listStartNumber: '2',
+              listItems: [
                 {
-                  text: 'The intellectual property in the materials contained in this website are owned by or licensed to Goldfingers Aesthetics and are protected by applicable copyright and trademark law. We grant our users permission to download one copy of the materials for personal, non-commercial transitory use.',
-                },
-                {
-                  text: 'This constitutes the grant of a license, not a transfer of title. This license shall automatically terminate if you violate any of these restrictions or the Terms of Service, and may be terminated by Goldfingers Aesthetics at any time.',
+                  text: 'Consent for SMS Communication',
+                  bold: true,
+                  italic: true,
                 },
               ],
             },
             {
-              heading: 'Liability',
-              contentType: 'paragraphs',
-              paragraphs: [
+              blockType: 'paragraph',
+              content:
+                'By providing your consent to receive SMS communications, you acknowledge and agree to receive text messages from Goldfingers Aesthetics at the phone number you provide. Information obtained as part of the SMS consent process will not be shared with third parties.',
+              italic: true,
+              fontWeight: '400',
+            },
+            {
+              blockType: 'orderedList',
+              listStartNumber: '3',
+              listItems: [
                 {
-                  text: "Our website and the materials on our website are provided on an 'as is' basis. To the extent permitted by law, Goldfingers Aesthetics makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property, or other violation of rights.",
-                },
-                {
-                  text: 'In no event shall Goldfingers Aesthetics or its suppliers be liable for any consequential loss suffered or incurred by you or any third party arising from the use or inability to use this website or the materials on this website, even if Goldfingers Aesthetics or an authorized representative has been notified, orally or in writing, of the possibility of such damage.',
-                },
-                {
-                  text: 'In the context of this agreement, "consequential loss" includes any consequential loss, indirect loss, real or anticipated loss of profit, loss of benefit, loss of revenue, loss of business, loss of goodwill, loss of opportunity, loss of savings, loss of reputation, loss of use and/or loss or corruption of data, whether under statute, contract, equity, tort (including negligence), indemnity, or otherwise.',
-                },
-                {
-                  text: 'Because some jurisdictions do not allow limitations on implied warranties, or limitations of liability for consequential or incidental damages, these limitations may not apply to you.',
+                  text: 'Types of SMS Communications',
+                  bold: true,
+                  italic: true,
                 },
               ],
             },
             {
-              heading: 'Accuracy of Materials',
-              contentType: 'paragraphs',
-              paragraphs: [
+              blockType: 'paragraph',
+              content:
+                'If you have consented to receive text messages, you may receive SMS communications related to the following:',
+              italic: true,
+              fontWeight: '400',
+            },
+            {
+              blockType: 'unorderedList',
+              listItems: [
                 {
-                  text: 'The materials appearing on our website are not comprehensive and are for general information purposes only. Goldfingers Aesthetics does not warrant or make any representations concerning the accuracy, likely results, or reliability of the use of the materials on this website, or otherwise relating to such materials or on any resources linked to this website.',
+                  text: 'Updates regarding your appointments, purchases, or other relevant information.',
+                  italic: true,
+                  fontWeight: '400',
+                  nestedList: [
+                    {
+                      text: 'Updates regarding your appointments, purchases, or other relevant information.',
+                      italic: true,
+                      fontWeight: '400',
+                    },
+                  ],
+                },
+                {
+                  text: 'Personalized services, updates, and promotional offers.',
+                  italic: true,
+                  fontWeight: '400',
+                },
+                {
+                  text: 'Job Applicants: Information about your application status, onboarding materials, or other employment-related updates.',
+                  italic: true,
+                  fontWeight: '400',
                 },
               ],
             },
             {
-              heading: 'Links',
-              contentType: 'paragraphs',
-              paragraphs: [
+              blockType: 'orderedList',
+              listStartNumber: '4',
+              listItems: [
                 {
-                  text: 'Goldfingers Aesthetics has not reviewed all of the sites linked to its website and is not responsible for the contents of any such linked site. The inclusion of any link does not imply endorsement, approval, or control by Goldfingers Aesthetics of the site. Use of any such linked site is at your own risk and we strongly advise you make your own investigations with respect to the suitability of those sites.',
+                  text: 'Standard Messaging Disclosures',
+                  italic: true,
+                  fontWeight: '400',
                 },
               ],
             },
             {
-              heading: 'Right to Terminate',
-              contentType: 'paragraphs',
-              paragraphs: [
+              blockType: 'unorderedList',
+              listItems: [
                 {
-                  text: 'We may suspend or terminate your right to use our website and terminate these Terms of Service immediately upon written notice to you for any breach of these Terms of Service.',
+                  text: 'Message Frequency: Frequency of messages may vary depending on your interactions with us.',
+                  italic: true,
+                  fontWeight: '400',
+                },
+                {
+                  text: 'Standard messaging rates will be charged by your mobile service provider.',
+                  italic: true,
+                  fontWeight: '400',
+                },
+                {
+                  text: 'You can opt-out of receiving SMS messages at any time by texting "STOP" to the number from which you received the message.',
+                  italic: true,
+                  fontWeight: '400',
                 },
               ],
             },
             {
-              heading: 'Severance',
-              contentType: 'paragraphs',
-              paragraphs: [
-                {
-                  text: 'Any term of these Terms of Service which is wholly or partially void or unenforceable is severed to the extent that it is void or unenforceable. The validity of the remainder of these Terms of Service is not affected.',
-                },
-              ],
-            },
-            {
-              heading: 'Governing Law',
-              contentType: 'paragraphs',
-              paragraphs: [
-                {
-                  text: 'These Terms of Service are governed by and construed in accordance with the laws of California. You irrevocably submit to the exclusive jurisdiction of the courts in that State or location.',
-                },
-              ],
+              blockType: 'paragraph',
+              content:
+                'For assistance, text "HELP" " to any text message or contact us directly at (407) 405-3388, you can email us at marketing@goldfingersaesthetics.com or visit our privacy policy at https://www.goldfingersaesthetics.com/privacy-policy/.',
+              italic: true,
+              fontWeight: '400',
             },
           ],
         },
@@ -603,11 +882,11 @@ export const TermsAndConditionsPageComponent: CollectionConfig = {
           required: true,
           options: [
             { label: 'Hero Section', value: 'hero' },
-            { label: 'Terms Content Section', value: 'termsContent' },
+            { label: 'Privacy Content Section', value: 'privacyContent' },
           ],
         },
       ],
-      defaultValue: [{ section: 'hero' }, { section: 'termsContent' }],
+      defaultValue: [{ section: 'hero' }, { section: 'privacyContent' }],
     },
     // Global Styles
     {
@@ -741,6 +1020,21 @@ export const TermsAndConditionsPageComponent: CollectionConfig = {
           label: 'H3 Font Weight',
         },
         {
+          name: 'h4FontSize',
+          type: 'text',
+          label: 'H4 Font Size',
+        },
+        {
+          name: 'h4Color',
+          type: 'text',
+          label: 'H4 Color',
+        },
+        {
+          name: 'h4FontWeight',
+          type: 'text',
+          label: 'H4 Font Weight',
+        },
+        {
           name: 'bodyFontSize',
           type: 'text',
           label: 'Body Font Size',
@@ -782,109 +1076,6 @@ export const TermsAndConditionsPageComponent: CollectionConfig = {
         },
       ],
     },
-    // Layout Settings
-    {
-      name: 'layoutSettings',
-      type: 'group',
-      label: 'Layout Settings',
-      fields: [
-        {
-          name: 'contentMaxWidth',
-          type: 'text',
-          label: 'Content Max Width',
-          admin: {
-            description: 'Maximum width for content area',
-          },
-        },
-        {
-          name: 'contentPadding',
-          type: 'text',
-          label: 'Content Padding',
-          admin: {
-            description: 'Internal padding for content',
-          },
-        },
-        {
-          name: 'rowGap',
-          type: 'text',
-          label: 'Row Gap',
-          admin: {
-            description: 'Gap between rows (e.g., 20px, 1.5rem)',
-          },
-        },
-        {
-          name: 'imageObjectFit',
-          type: 'select',
-          label: 'Image Object Fit',
-          options: [
-            { label: 'Cover', value: 'cover' },
-            { label: 'Contain', value: 'contain' },
-            { label: 'Fill', value: 'fill' },
-            { label: 'None', value: 'none' },
-          ],
-          defaultValue: 'cover',
-        },
-      ],
-    },
-    // Animation Settings
-    {
-      name: 'animationSettings',
-      type: 'group',
-      label: 'Animation Settings',
-      fields: [
-        {
-          name: 'enableAnimations',
-          type: 'checkbox',
-          label: 'Enable Animations',
-          defaultValue: true,
-        },
-        {
-          name: 'fadeInDuration',
-          type: 'text',
-          label: 'Fade In Duration',
-          admin: {
-            description: 'Duration for fade in animations (e.g., 1s, 2s)',
-          },
-          defaultValue: '1s',
-        },
-        {
-          name: 'fadeInDelay',
-          type: 'text',
-          label: 'Fade In Delay',
-          admin: {
-            description: 'Delay before fade in starts (e.g., 0.2s)',
-          },
-          defaultValue: '0s',
-        },
-        {
-          name: 'animationEasing',
-          type: 'text',
-          label: 'Animation Easing',
-          admin: {
-            description: 'CSS easing function',
-          },
-          defaultValue: 'ease-in-out',
-        },
-        {
-          name: 'enableScrollAnimations',
-          type: 'checkbox',
-          label: 'Enable Scroll Animations',
-          admin: {
-            description: 'Enable scroll-triggered animations',
-          },
-          defaultValue: true,
-        },
-        {
-          name: 'scrollAnimationOffset',
-          type: 'text',
-          label: 'Scroll Animation Offset',
-          admin: {
-            description: 'Distance from viewport to trigger animation (px)',
-          },
-          defaultValue: '100',
-        },
-      ],
-    },
     // SEO Settings
     {
       name: 'seoSettings',
@@ -895,14 +1086,14 @@ export const TermsAndConditionsPageComponent: CollectionConfig = {
           name: 'metaTitle',
           type: 'text',
           label: 'Meta Title',
-          defaultValue: 'Terms & Conditions - Goldfingers Aesthetics',
+          defaultValue: 'Privacy Policy - Goldfingers Aesthetics',
         },
         {
           name: 'metaDescription',
           type: 'textarea',
           label: 'Meta Description',
           defaultValue:
-            'Terms of Service for Goldfingers Aesthetics. Read our terms and conditions governing the use of our website and services.',
+            'Privacy Policy for Goldfingers Aesthetics. Learn how we collect, use, and protect your personal information.',
         },
         {
           name: 'ogImage',
@@ -917,14 +1108,13 @@ export const TermsAndConditionsPageComponent: CollectionConfig = {
           admin: {
             description: 'Comma-separated keywords for SEO',
           },
-          defaultValue:
-            'terms of service, terms and conditions, legal, goldfingers aesthetics',
+          defaultValue: 'privacy policy, data protection, privacy, goldfingers aesthetics',
         },
         {
           name: 'canonicalUrl',
           type: 'text',
           label: 'Canonical URL',
-          defaultValue: 'https://www.goldfingersaesthetics.com/terms-and-conditions/',
+          defaultValue: 'https://www.goldfingersaesthetics.com/privacy-policy/',
         },
         {
           name: 'robots',
@@ -1126,7 +1316,7 @@ export const TermsAndConditionsPageComponent: CollectionConfig = {
               label: 'Apply To Section',
               options: [
                 { label: 'Hero Section', value: 'hero' },
-                { label: 'Terms Content Section', value: 'termsContent' },
+                { label: 'Privacy Content Section', value: 'privacyContent' },
               ],
             },
           ],
@@ -1277,36 +1467,43 @@ export const TermsAndConditionsPageComponent: CollectionConfig = {
           defaultValue: 'Goldfingers Aesthetics',
         },
         {
-          name: 'lastUpdatedDate',
+          name: 'effectiveDate',
           type: 'text',
-          label: 'Last Updated Date',
+          label: 'Effective Date',
           admin: {
-            description: 'Date when terms were last updated',
+            description: 'Date when policy became effective',
           },
-          defaultValue: 'January 1, 2025',
+          defaultValue: 'March 6, 2025',
         },
         {
-          name: 'governingState',
+          name: 'contactPhone',
           type: 'text',
-          label: 'Governing State/Location',
-          admin: {
-            description: 'State or location for governing law',
-          },
-          defaultValue: 'California',
+          label: 'Contact Phone',
+          defaultValue: '(407) 405-3388',
         },
         {
-          name: 'displayUpdateDate',
+          name: 'contactEmail',
+          type: 'text',
+          label: 'Contact Email',
+          defaultValue: 'marketing@goldfingersaesthetics.com',
+        },
+        {
+          name: 'physicalAddress',
+          type: 'textarea',
+          label: 'Physical Address',
+          defaultValue: '115 International Pkwy, Lake Mary, FL 32746',
+        },
+        {
+          name: 'displayEffectiveDate',
           type: 'checkbox',
-          label: 'Display Last Updated Date',
+          label: 'Display Effective Date',
           defaultValue: true,
         },
         {
-          name: 'legalDisclaimer',
-          type: 'textarea',
-          label: 'Additional Legal Disclaimer',
-          admin: {
-            description: 'Optional additional disclaimer text',
-          },
+          name: 'displayContactInfo',
+          type: 'checkbox',
+          label: 'Display Contact Information',
+          defaultValue: true,
         },
       ],
     },
